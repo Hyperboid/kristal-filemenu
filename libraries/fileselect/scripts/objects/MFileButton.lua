@@ -72,7 +72,7 @@ function MFileButton:draw()
         if self.selected_choice == 1 then
             Draw.setColor(1, 1, 1)
         else
-            Draw.setColor(0.6, 0.6, 0.7)
+            Draw.setColor(PALETTE["filemenu_deselected"])
         end
         love.graphics.print(self.choices[1], 70, 44)
 
@@ -83,7 +83,7 @@ function MFileButton:draw()
         if self.selected_choice == 2 then
             Draw.setColor(1, 1, 1)
         else
-            Draw.setColor(0.6, 0.6, 0.7)
+            Draw.setColor(PALETTE["filemenu_deselected"])
         end
         love.graphics.print(self.choices[2], 250, 44)
     end

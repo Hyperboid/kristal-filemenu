@@ -3,16 +3,16 @@ local FileButton, super = Class(FileButton)
 function FileButton:getDrawColor()
     local copy = self.color[3] < 0.7 -- TODO: detect better
     local delete = Utils.equal(self.color, {1, 0, 0})
-    if Game.world.map.menustyle == "DEVICE" then
-        if delete then
-            return Utils.unpackColor{1,0,0}
-        end
-        if self.selected then
-            return Utils.unpackColor{ copy and 0.5 or 0, 1, copy and 0.5 or 0 }
-        end
-        return Utils.unpackColor{ 0, 0.5, 0 }
+    if delete then
+        return Utils.unpackColor{1,0,0}
     end
-    return super.getDrawColor(self)
+    if copy then return PALETTE["filemenu_copy"] end
+    if self.selected then
+        return PALETTE["filemenu_selected"]
+    end
+    return PALETTE["filemenu_deselected"]
+    -- return Utils.unpackColor{ 0, 0.5, 0 }
+    -- return super.super.getDrawColor(self)
 end
 
 function FileButton:drawCoolRectangle(x, y, w, h)
@@ -76,16 +76,9 @@ function FileButton:draw()
         love.graphics.print(self.choices[1], 70+2, 44+2)
         -- Draw choice 1
         if self.selected_choice == 1 then
-            Draw.setColor(1, 1, 1)
+            Draw.setColor(PALETTE["filemenu_selected"])
         else
-            Draw.setColor(0.6, 0.6, 0.7)
-        end
-        if Game.world.map.menustyle == "DEVICE" then
-            if self.selected_choice == 1 then
-                Draw.setColor(0, 1, 0)
-            else
-                Draw.setColor(0, 0.5, 0)
-            end
+            Draw.setColor(PALETTE["filemenu_deselected"])
         end
         love.graphics.print(self.choices[1], 70, 44)
 
@@ -96,7 +89,7 @@ function FileButton:draw()
         if self.selected_choice == 2 then
             Draw.setColor(1, 1, 1)
         else
-            Draw.setColor(0.6, 0.6, 0.7)
+            Draw.setColor(PALETTE["filemenu_deselected"])
         end
         if Game.world.map.menustyle == "DEVICE" then
             if self.selected_choice == 2 then

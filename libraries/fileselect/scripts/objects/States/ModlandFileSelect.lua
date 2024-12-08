@@ -419,14 +419,9 @@ function ModlandFileSelect:draw()
     local function setColor(x, y)
         local luma = 1
         if self.selected_x == x and self.selected_y == y then
-            luma = 1--Draw.setColor(1, 1, 1)
+            Draw.setColor(PALETTE["filemenu_selected"])
         else
-            luma = 0.6--Draw.setColor(0.6, 0.6, 0.7)
-        end
-        if Game.world.map.menustyle == "DEVICE" then
-           Draw.setColor(0,luma > 0.7 and 1 or 0.5,0)
-        else
-            Draw.setColor(luma,luma,luma > 0.7 and 1 or 0.7)
+            Draw.setColor(PALETTE["filemenu_deselected"])
         end
     end
 
