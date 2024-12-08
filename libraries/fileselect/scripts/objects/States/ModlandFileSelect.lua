@@ -49,7 +49,7 @@ function ModlandFileSelect:onEnter()
         table.insert(self.files, button)
         self.container:addChild(button)
     end
-    self.bottom_row_heart = { 80, 250, 440 }
+    self.bottom_row_heart = { 80, 250, 400 }
 end
 
 function ModlandFileSelect:onLeave()
@@ -441,7 +441,7 @@ function ModlandFileSelect:draw()
         setColor(2, 4)
         Draw.printShadow(self:gasterize "Erase", 280, 380)
         setColor(3, 4)
-        Draw.printShadow(self:gasterize "Back", 468, 380)
+        Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380)
     else
         setColor(1, 4)
         Draw.printShadow(self:gasterize "Cancel", 110, 380)
