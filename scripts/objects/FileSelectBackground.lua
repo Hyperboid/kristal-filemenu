@@ -25,7 +25,7 @@ end
 
 function FileSelectBackground:draw()
     super.draw(self)
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then return end
+    if Game.world.map.menustyle == "DEVICE" then return end
     -- We need to draw the background on a canvas
     local bg_canvas = Draw.pushCanvas(320, 240)
     love.graphics.clear(0, 0, 0, 1)

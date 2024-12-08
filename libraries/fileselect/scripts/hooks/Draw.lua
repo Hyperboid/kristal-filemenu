@@ -8,7 +8,7 @@ function Draw.coolRectangle(x, y, w, h)
     -- Make sure the line is a single pixel wide
     love.graphics.setLineWidth(1)
     love.graphics.setLineStyle("rough")
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         love.graphics.rectangle("line", x, y, w, h)
         return
     end

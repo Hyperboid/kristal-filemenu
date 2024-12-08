@@ -3,7 +3,7 @@ local FileButton, super = Class(FileButton)
 function FileButton:getDrawColor()
     local copy = self.color[3] < 0.7 -- TODO: detect better
     local delete = Utils.equal(self.color, {1, 0, 0})
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         if delete then
             return Utils.unpackColor{1,0,0}
         end
@@ -16,7 +16,7 @@ function FileButton:getDrawColor()
 end
 
 function FileButton:drawCoolRectangle(x, y, w, h)
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         love.graphics.setLineWidth(1)
         love.graphics.setLineStyle("rough")
         -- Set the color
@@ -80,7 +80,7 @@ function FileButton:draw()
         else
             Draw.setColor(0.6, 0.6, 0.7)
         end
-        if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+        if Game.world.map.menustyle == "DEVICE" then
             if self.selected_choice == 1 then
                 Draw.setColor(0, 1, 0)
             else
@@ -98,7 +98,7 @@ function FileButton:draw()
         else
             Draw.setColor(0.6, 0.6, 0.7)
         end
-        if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+        if Game.world.map.menustyle == "DEVICE" then
             if self.selected_choice == 2 then
                 Draw.setColor(0, 1, 0)
             else

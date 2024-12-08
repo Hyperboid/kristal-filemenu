@@ -10,7 +10,7 @@ function MFileButton:init(data, x,y)
 end
 
 function MFileButton:getDrawColor()
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         if self.selected then
             return Utils.unpackColor{ 0, 1, 0 }
         end

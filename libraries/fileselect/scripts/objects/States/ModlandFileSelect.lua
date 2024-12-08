@@ -136,7 +136,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                 if button.selected_choice == 1 and self.erase_stage == 1 then
                     Assets.stopAndPlaySound("ui_select")
                     button:setColor(1, 0, 0)
-                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                    if Game.world.map.menustyle == "DEVICE" then
                         button:setChoices({ "ERASE", "DO NOT" }, "THEN IT WILL BE DESTROYED.")
                     else
                         button:setChoices({ "Yes!", "No!" }, "Really erase it?")
@@ -146,7 +146,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                     local result
                     if
                         button.selected_choice == 2 and self.erase_stage == 2
-                        and Kristal.getLibConfig("fileselect", "style") == "DEVICE"
+                        and Game.world.map.menustyle == "DEVICE"
                     then
                         self.threat = self.threat + 1
                         if self.threat > 9 then
@@ -207,13 +207,13 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
             if self.selected_y <= 3 then
                 self.focused_button = self:getSelectedFile()
                 if self.focused_button.data then
-                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                    if Game.world.map.menustyle == "DEVICE" then
                         self.focused_button:setChoices({ "CONTINUE", "BACK" })
                     else
                         self.focused_button:setChoices({ "Continue", "Back" })
                     end
                 else
-                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                    if Game.world.map.menustyle == "DEVICE" then
                         self.focused_button:setChoices({ "BEGIN", "BACK" })
                     else
                         self.focused_button:setChoices({ "Start", "Back" })
@@ -283,7 +283,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                         self:updateSelected()
                     else
                         Assets.stopAndPlaySound("ui_cancel")
-                        if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                        if Game.world.map.menustyle == "DEVICE" then
                             self:setResultText("IT IS BARREN AND CANNOT BE COPIED.")
                         else
                             self:setResultText("It can't be copied.")
@@ -297,7 +297,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                     elseif selected.data then
                         Assets.stopAndPlaySound("ui_select")
                         self.focused_button = selected
-                        if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                        if Game.world.map.menustyle == "DEVICE" then
                             self.focused_button:setChoices({ "OVERWRITE", "DO NOT" }, "IT WILL BE SUBSUMED.")
                         else
                             self.focused_button:setChoices({ "Yes", "No" }, "Copy over this file?")
@@ -351,14 +351,14 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                 local button = self:getSelectedFile()
                 if button.data then
                     self.focused_button = button
-                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                    if Game.world.map.menustyle == "DEVICE" then
                         self.focused_button:setChoices({ "YES", "NO" }, "TRULY ERASE IT?")
                     else
                         self.focused_button:setChoices({ "Yes", "No" }, "Erase this file?")
                     end
                     Assets.stopAndPlaySound("ui_select")
                 else
-                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                    if Game.world.map.menustyle == "DEVICE" then
                         self:setResultText("BUT IT WAS ALREADY GONE.")
                     else
                         self:setResultText("There's nothing to erase.")
@@ -403,14 +403,14 @@ end
 
 function ModlandFileSelect:draw()
     local mod_name = string.upper(self.mod.chaptername or self.mod.name or self.mod.id)
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         Draw.setColor(0,.5,0)
     else
         Draw.setColor(1,1,1)
     end
     Draw.printShadow(mod_name, 16, 8)
 
-    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+    if Game.world.map.menustyle == "DEVICE" then
         Draw.setColor(0,1,0)
     end
     
@@ -423,7 +423,7 @@ function ModlandFileSelect:draw()
         else
             luma = 0.6--Draw.setColor(0.6, 0.6, 0.7)
         end
-        if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+        if Game.world.map.menustyle == "DEVICE" then
            Draw.setColor(0,luma > 0.7 and 1 or 0.5,0)
         else
             Draw.setColor(luma,luma,luma > 0.7 and 1 or 0.7)
@@ -461,7 +461,7 @@ end
 
 function ModlandFileSelect:gasterize(string)
     if type(string) ~= "string" then return string end
-    if Kristal.getLibConfig("fileselect", "style") ~= "DEVICE" then
+    if Game.world.map.menustyle ~= "DEVICE" then
         return string
     end
     local gtable = {
