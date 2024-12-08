@@ -4,11 +4,11 @@ function Mod:init()
 end
 
 function Mod:getFileSelectStyle()
-    if Kristal.hasAnySaves(Mod.info.id) then
-        -- Could check for a Completion Save here
-        if Kristal.loadData("file_3") then
-            return "normal"
-        end
+    -- Could check for a Completion Save here
+    if Kristal.loadData("file_3") then
+        return "normal"
+    end
+    if Kristal.loadData("file_2") then
         return "greatdoor"
     end
     return "DEVICE"
