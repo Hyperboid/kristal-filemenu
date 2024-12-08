@@ -37,6 +37,7 @@ function ModlandFileSelect:onEnter()
     self.files = {}
     self.selected_y = 1
     self.selected_x = 1
+    self.threat = 0
     self.container = Object()
     self.menu:addChild(self.container)
     for i = 1, 3 do
@@ -135,10 +136,26 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                 if button.selected_choice == 1 and self.erase_stage == 1 then
                     Assets.stopAndPlaySound("ui_select")
                     button:setColor(1, 0, 0)
-                    button:setChoices({ "Yes!", "No!" }, "Really erase it?")
+                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                        button:setChoices({ "ERASE", "DO NOT" }, "THEN IT WILL BE DESTROYED.")
+                    else
+                        button:setChoices({ "Yes!", "No!" }, "Really erase it?")
+                    end
                     self.erase_stage = 2
                 else
                     local result
+                    if
+                        button.selected_choice == 2 and self.erase_stage == 2
+                        and Kristal.getLibConfig("fileselect", "style") == "DEVICE"
+                    then
+                        self.threat = self.threat + 1
+                        if self.threat > 9 then
+                            result = "VERY INTERESTING."
+                            self.threat = 0
+                        else
+                            result = "THEN IT WAS SPARED."
+                        end
+                    end
                     if button.selected_choice == 1 and self.erase_stage == 2 then
                         Assets.stopAndPlaySound("ui_spooky_action")
                         Kristal.eraseData("file_" .. button.id, Mod.info.id)
@@ -339,7 +356,11 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                 local button = self:getSelectedFile()
                 if button.data then
                     self.focused_button = button
-                    self.focused_button:setChoices({ "Yes", "No" }, "Erase this file?")
+                    if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then
+                        self.focused_button:setChoices({ "YES", "NO" }, "TRULY ERASE IT?")
+                    else
+                        self.focused_button:setChoices({ "Yes", "No" }, "Erase this file?")
+                    end
                     Assets.stopAndPlaySound("ui_select")
                 else
                     if Kristal.getLibConfig("fileselect", "style") == "DEVICE" then

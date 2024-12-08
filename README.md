@@ -12,4 +12,4 @@ In your mod.json, make sure to set `map` to `"fileselect"` and `useSaves` to `fa
 - No namer
 - No state between save selection and loading (like Deltatraveler)
 - Example FileSelectBackground is cut off
-- Missing some interactions on the DEVICE style (e.g. threat level)
+- Missing some interactions on the DEVICE style ~~(e.g. threat level)~~
