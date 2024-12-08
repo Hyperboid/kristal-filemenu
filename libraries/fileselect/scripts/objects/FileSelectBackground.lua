@@ -72,17 +72,17 @@ end
 
 function FileSelectBackground:draw_greatdoor()
     love.graphics.push()
-    -- love.graphics.scale(1.5)
-    love.graphics.translate(-105,45)
+    love.graphics.translate(-147,0)
+    love.graphics.scale(2)
     Draw.setColor(COLORS.white(
         (0.03 + (math.sin(self.animation_sine / 20)) * 0.04)
     ))
-    Draw.draw(self.giantdarkdoor, 43, 48, 0, 4, 4)
-    Draw.draw(self.giantdarkdoor, 47, 48, 0, 4, 4)
-    Draw.draw(self.giantdarkdoor, 43, 52, 0, 4, 4)
-    Draw.draw(self.giantdarkdoor, 47, 52, 0, 4, 4)
+    Draw.draw(self.giantdarkdoor, 43, 48, 0, 2,2)
+    Draw.draw(self.giantdarkdoor, 47, 48, 0, 2,2)
+    Draw.draw(self.giantdarkdoor, 43, 52, 0, 2,2)
+    Draw.draw(self.giantdarkdoor, 47, 52, 0, 2,2)
     Draw.setColor(COLORS.white(0.25))
-    Draw.draw(self.giantdarkdoor, 45, 50, 0, 4, 4)
+    Draw.draw(self.giantdarkdoor, 45, 50, 0, 2,2)
     love.graphics.pop()
 end
 
