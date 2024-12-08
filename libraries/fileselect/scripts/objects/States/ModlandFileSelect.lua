@@ -123,7 +123,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                         end
                         Kristal.callEvent("fsPostInit", new_file)
                     else
-                        self.menu:setState("FILENAME")
+                        self.menu:pushState("FILENAME")
 
                         button:setChoices()
                         self.focused_button = nil
@@ -232,14 +232,9 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                     self.selected_y = 1
                     self:updateSelected()
                 elseif self.selected_x == 3 then
-                    if not TARGET_MOD then
-                        Game:returnToMenu()
-						if MainMenu.mod_list:getSelectedMod().soulColor then
-							MainMenu.heart.color = MainMenu.mod_list:getSelectedMod().soulColor
-						end
-                    else
-                        self.menu:setState("TITLE")
-                        self.menu.title_screen:selectOption("play")
+                    Game:returnToMenu()
+                    if MainMenu.mod_list:getSelectedMod().soulColor then
+                        MainMenu.heart.color = MainMenu.mod_list:getSelectedMod().soulColor
                     end
                 end
             end

@@ -24,6 +24,18 @@ function FileSelectMenu:onAddToStage()
     self.state_manager:setState("FILESELECT")
 end
 
+function FileSelectMenu:setState(state)
+    self.state_manager:setState(state)
+end
+
+function FileSelectMenu:pushState(state)
+    self.state_manager:pushState(state)
+end
+
+function FileSelectMenu:popState(...)
+    self.state_manager:popState(...)
+end
+
 function FileSelectMenu:draw()
     love.graphics.setFont(self.font)
     super.draw(self)
