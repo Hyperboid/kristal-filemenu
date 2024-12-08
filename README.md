@@ -9,7 +9,6 @@ In your mod.json, make sure to set `map` to `"fileselect"` and `useSaves` to `fa
 `style`: Either "DEVICE" or "normal", determines the appearance of the menu. Defaults to "DEVICE".  
 
 # Known issues
-- No namer
 - No state between save selection and loading (like Deltatraveler)
 - Example FileSelectBackground is cut off
 - Missing some interactions on the DEVICE style ~~(e.g. threat level)~~
