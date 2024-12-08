@@ -5,7 +5,7 @@ In your mod.json, make sure to set `map` to `"fileselect"` and `useSaves` to `fa
 # Library options
 
 `map`: The map that is loaded into when starting a new file.  
-`music`: The music that plays on the menu. Defaults to "AUDIO_DRONE".  
+`music`: The music that plays on the menu. Defaults based on the style.  
 `style`: Either "DEVICE" or "normal", determines the appearance of the menu. Defaults to "DEVICE".  
 
 # Known issues
