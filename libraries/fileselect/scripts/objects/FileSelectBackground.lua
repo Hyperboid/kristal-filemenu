@@ -72,7 +72,7 @@ end
 
 function FileSelectBackground:draw_greatdoor()
     love.graphics.push()
-    love.graphics.translate(-147,0)
+    love.graphics.translate(-142,0)
     love.graphics.scale(2)
     Draw.setColor(COLORS.white(
         (0.03 + (math.sin(self.animation_sine / 20)) * 0.04)
