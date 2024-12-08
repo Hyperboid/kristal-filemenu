@@ -1,0 +1,11 @@
+{
+    "id": "fileselect",
+    "name": "File Select",
+    "authors": [],
+    "config": {
+        // What map to load on a new file
+        "map": null,
+        "music": "AUDIO_DRONE",
+        "style": "DEVICE",
+    }
+}
