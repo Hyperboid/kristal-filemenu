@@ -69,8 +69,8 @@
         "fileselect": {
             "map": "room1",
             // "music": "silent",
-            "music": "mod_menu",
-            "style": "normal"
+            //"music": "mod_menu",
+            "style": "greatdoor"
         }
     }
 }

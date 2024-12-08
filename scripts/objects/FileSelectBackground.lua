@@ -1,3 +1,4 @@
+---@class FileSelectBackground: Object
 local FileSelectBackground, super = Class(Object)
 
 function FileSelectBackground:init()
@@ -21,11 +22,19 @@ function FileSelectBackground:init()
     self.background_image_animation = Assets.getFrames("kristal/title_bg_anim")
     self.animation_sine = 0
     self.background_alpha = 1
+    self.giantdarkdoor = Assets.getTexture("fileselect/giantdarkdoor")
 end
 
 function FileSelectBackground:draw()
     super.draw(self)
-    if Game.world.map.menustyle == "DEVICE" then return end
+    if Game.world.map.menustyle == "normal" then
+        self:drawFountain()
+    elseif Game.world.map.menustyle == "greatdoor" then
+        self:drawDoor()
+    end
+end
+
+function FileSelectBackground:drawFountain()
     -- We need to draw the background on a canvas
     local bg_canvas = Draw.pushCanvas(320, 240)
     love.graphics.clear(0, 0, 0, 1)
@@ -61,6 +70,18 @@ function FileSelectBackground:draw()
     Draw.setColor(1, 1, 1, self.background_fade)
     -- Draw.draw(bg_canvas, 0, 0, 0, 2, 2)
     Draw.draw(bg_canvas, 0, 20, 0, 2, 2)
+end
+
+function FileSelectBackground:drawDoor()
+    Draw.setColor(COLORS.white(
+        (0.03 + (math.sin(self.animation_sine / 20)) * 0.04)
+    ))
+    Draw.draw(self.giantdarkdoor, 43, 48, 0, 3, 3)
+    Draw.draw(self.giantdarkdoor, 47, 48, 0, 3, 3)
+    Draw.draw(self.giantdarkdoor, 43, 52, 0, 3, 3)
+    Draw.draw(self.giantdarkdoor, 47, 52, 0, 3, 3)
+    Draw.setColor(COLORS.white(0.25))
+    Draw.draw(self.giantdarkdoor, 45, 50, 0, 3, 3)
 end
 
 function FileSelectBackground:drawAnimStrip(sprite, subimg, x, y, alpha)

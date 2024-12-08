@@ -5,6 +5,11 @@ function map:init(world,data)
     self.menu = FileSelectMenu()
     self.music = Kristal.callEvent("getFileSelectMusic") or Kristal.getLibConfig("fileselect", "music")
     self.menustyle = Kristal.callEvent("getFileSelectStyle") or Kristal.getLibConfig("fileselect", "style")
+    self.music = self.music or ({
+        normal = "mod_menu",
+        greatdoor = "menu",
+        DEVICE = "AUDIO_DRONE"
+    })[self.menustyle]
 end
 
 function map:onEnter()
