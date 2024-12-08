@@ -7,3 +7,8 @@ In your mod.json, make sure to set `map` to `"fileselect"` and `useSaves` to `fa
 `map`: The map that is loaded into when starting a new file.  
 `music`: The music that plays on the menu. Defaults to "AUDIO_DRONE".  
 `style`: Either "DEVICE" or "normal", determines the appearance of the menu. Defaults to "DEVICE".  
+
+# Known issues
+- No namer
+- No state between save selection and loading (like Deltatraveler)
+- Example FileSelectBackground is cut off
