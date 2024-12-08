@@ -25,6 +25,8 @@ function lib:getPaletteColor(key)
             DEVICE = {0.5,1,0.5}
         }
     end
+    MUSIC_PITCHES.menu = 0.95
+    MUSIC_PITCHES.mod_menu = 0.95
 end
 
 return lib
