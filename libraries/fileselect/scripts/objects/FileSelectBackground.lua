@@ -27,14 +27,12 @@ end
 
 function FileSelectBackground:draw()
     super.draw(self)
-    if Game.world.map.menustyle == "normal" then
-        self:drawFountain()
-    elseif Game.world.map.menustyle == "greatdoor" then
-        self:drawDoor()
+    if self["draw_"..Game.world.map.menustyle] then
+        self["draw_"..Game.world.map.menustyle](self)
     end
 end
 
-function FileSelectBackground:drawFountain()
+function FileSelectBackground:draw_normal()
     -- We need to draw the background on a canvas
     local bg_canvas = Draw.pushCanvas(320, 240)
     love.graphics.clear(0, 0, 0, 1)
@@ -72,7 +70,7 @@ function FileSelectBackground:drawFountain()
     Draw.draw(bg_canvas, 0, 20, 0, 2, 2)
 end
 
-function FileSelectBackground:drawDoor()
+function FileSelectBackground:draw_greatdoor()
     Draw.setColor(COLORS.white(
         (0.03 + (math.sin(self.animation_sine / 20)) * 0.04)
     ))
