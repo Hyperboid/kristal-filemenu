@@ -37,8 +37,8 @@ function ModlandFileNamer:onEnter(old_state)
             self.file_namer:remove()
             Game.save_id = self.menu.file_select.selected_y
             Game.save_name = name
-            Kristal.callEvent("afmPostInit", true)
             Game.world:loadMap(Kristal.getLibConfig("afilemenu", "map"))
+            Kristal.callEvent("afmPostInit", true)
 
             if mod.transition then
                 self.file_namer.name_preview.visible = false
