@@ -162,31 +162,6 @@ function ModlandCompletionSelect:onKeyPressed(key, is_repeat)
                     self.selected_y = 4
                     self:updateSelected()
                 end
-            elseif self.state == "COPY" then
-                if button.selected_choice == 1 then
-                    Assets.stopAndPlaySound("ui_spooky_action")
-                    local data = Kristal.loadData("file_" .. self.copied_button.id, Mod.info.id)
-                    Kristal.saveData("file_" .. button.id, data, Mod.info.id)
-                    button:setData(data)
-                    button:setChoices()
-                    self:setState("SELECT", "Copy complete.")
-                    self.copied_button:setColor(1, 1, 1)
-                    self.copied_button = nil
-                    self.focused_button = nil
-                    self.selected_x = 1
-                    self.selected_y = 4
-                    self:updateSelected()
-                elseif button.selected_choice == 2 then
-                    Assets.stopAndPlaySound("ui_select")
-                    button:setChoices()
-                    self:setState("SELECT")
-                    self.copied_button:setColor(1, 1, 1)
-                    self.copied_button = nil
-                    self.focused_button = nil
-                    self.selected_x = 1
-                    self.selected_y = 4
-                    self:updateSelected()
-                end
             end
         end
     elseif self.state == "SELECT" then
@@ -240,134 +215,6 @@ function ModlandCompletionSelect:onKeyPressed(key, is_repeat)
             Assets.stopAndPlaySound("ui_move")
             self:updateSelected()
         end
-    elseif self.state == "COPY" then
-        if Input.is("cancel", key) then
-            Assets.stopAndPlaySound("ui_cancel")
-            if self.copied_button then
-                self.selected_y = self.copied_button.id
-                self.copied_button:setColor(1, 1, 1)
-                self.copied_button = nil
-                self:updateSelected()
-            else
-                self:setState("SELECT")
-                self.selected_x = 1
-                self.selected_y = 4
-                self:updateSelected()
-            end
-            return true
-        end
-        if Input.is("confirm", key) then
-            if self.selected_y <= 3 then
-                if not self.copied_button then
-                    local button = self:getSelectedFile()
-                    if button.data then
-                        Assets.stopAndPlaySound("ui_select")
-                        self.copied_button = self:getSelectedFile()
-                        self.copied_button:setColor(1, 1, 0.5)
-                        self.selected_y = 1
-                        self:updateSelected()
-                    else
-                        Assets.stopAndPlaySound("ui_cancel")
-                        if Game.world.map.menustyle == "DEVICE" then
-                            self:setResultText("IT IS BARREN AND CANNOT BE COPIED.")
-                        else
-                            self:setResultText("It can't be copied.")
-                        end
-                    end
-                else
-                    local selected = self:getSelectedFile()
-                    if selected == self.copied_button then
-                        Assets.stopAndPlaySound("ui_cancel")
-                        self:setResultText("You can't copy there.")
-                    elseif selected.data then
-                        Assets.stopAndPlaySound("ui_select")
-                        self.focused_button = selected
-                        if Game.world.map.menustyle == "DEVICE" then
-                            self.focused_button:setChoices({ "OVERWRITE", "DO NOT" }, "IT WILL BE SUBSUMED.")
-                        else
-                            self.focused_button:setChoices({ "Yes", "No" }, "Copy over this file?")
-                        end
-                    else
-                        Assets.stopAndPlaySound("ui_spooky_action")
-                        local data = Kristal.loadData("file_" .. self.copied_button.id, Mod.info.id)
-                        Kristal.saveData("file_" .. selected.id, data, Mod.info.id)
-                        selected:setData(data)
-                        self:setState("SELECT", "Copy complete.")
-                        self.copied_button:setColor(1, 1, 1)
-                        self.copied_button = nil
-                        self.selected_x = 1
-                        self.selected_y = 4
-                        self:updateSelected()
-                    end
-                end
-            elseif self.selected_y == 4 then
-                Assets.stopAndPlaySound("ui_select")
-                self:setState("SELECT")
-                if self.copied_button then
-                    self.copied_button:setColor(1, 1, 1)
-                    self.copied_button = nil
-                end
-                self.selected_x = 1
-                self.selected_y = 4
-                self:updateSelected()
-            end
-            return true
-        end
-        local last_x, last_y = self.selected_x, self.selected_y
-        if Input.is("up", key) then self.selected_y = self.selected_y - 1 end
-        if Input.is("down", key) then self.selected_y = self.selected_y + 1 end
-        self.selected_x = 1
-        self.selected_y = Utils.clamp(self.selected_y, 1, 4)
-        if last_x ~= self.selected_x or last_y ~= self.selected_y then
-            Assets.stopAndPlaySound("ui_move")
-            self:updateSelected()
-        end
-    elseif self.state == "ERASE" then
-        if Input.is("cancel", key) then
-            Assets.stopAndPlaySound("ui_cancel")
-            self:setState("SELECT")
-            self.selected_x = 2
-            self.selected_y = 4
-            self:updateSelected()
-            return true
-        end
-        if Input.is("confirm", key) then
-            if self.selected_y <= 3 then
-                local button = self:getSelectedFile()
-                if button.data then
-                    self.focused_button = button
-                    if Game.world.map.menustyle == "DEVICE" then
-                        self.focused_button:setChoices({ "YES", "NO" }, "TRULY ERASE IT?")
-                    else
-                        self.focused_button:setChoices({ "Yes", "No" }, "Erase this file?")
-                    end
-                    Assets.stopAndPlaySound("ui_select")
-                else
-                    if Game.world.map.menustyle == "DEVICE" then
-                        self:setResultText("BUT IT WAS ALREADY GONE.")
-                    else
-                        self:setResultText("There's nothing to erase.")
-                    end
-                    Assets.stopAndPlaySound("ui_cancel")
-                end
-            elseif self.selected_y == 4 then
-                Assets.stopAndPlaySound("ui_select")
-                self:setState("SELECT")
-                self.selected_x = 2
-                self.selected_y = 4
-                self:updateSelected()
-            end
-            return true
-        end
-        local last_x, last_y = self.selected_x, self.selected_y
-        if Input.is("up", key) then self.selected_y = self.selected_y - 1 end
-        if Input.is("down", key) then self.selected_y = self.selected_y + 1 end
-        self.selected_x = 1
-        self.selected_y = Utils.clamp(self.selected_y, 1, 4)
-        if last_x ~= self.selected_x or last_y ~= self.selected_y then
-            Assets.stopAndPlaySound("ui_move")
-            self:updateSelected()
-        end
     end
 
     return true
@@ -395,14 +242,9 @@ function ModlandCompletionSelect:draw()
     end
     Draw.printShadow(mod_name, 16, 8)
 
-    if Game.world.map.menustyle == "DEVICE" then
-        Draw.setColor(0,1,0)
-    end
-    
     Draw.printShadow(self:getTitle(), 80, 60)
-    
+
     local function setColor(x, y)
-        local luma = 1
         if self.selected_x == x and self.selected_y == y then
             Draw.setColor(PALETTE["filemenu_selected"])
         else
@@ -437,34 +279,15 @@ function ModlandCompletionSelect:gasterize(string)
     end
     local gtable = {
         ["Please select a file."] = "",
-        ["Choose a file to copy."] = "CHOOSE THE ONE TO COPY.",
-        ["Choose a file to copy to."] = "CHOOSE THE TARGET FOR THE REFLECTION.",
-        ["Choose a file to erase."] = "CHOOSE THE ONE TO ERASE.",
-        ["You can't copy there."] = "IT IS IMMUNE TO ITS OWN IMAGE.",
-        ["Cancel"] = "        CANCEL"
     }
     return gtable[string] or gtable[string:upper()] or string:upper()
 end
 
 function ModlandCompletionSelect:getTitle()
-    if self.result_text then
-        return self.result_text
+    if Game.world.map.menustyle == "DEVICE" then
+        return self.menu.chapter_name.title_DEVICE
     end
-    if self.state == "SELECT" or self.state == "TRANSITIONING" then
-        return self:gasterize "Please select a file."
-    else
-        if self.state == "ERASE" then
-            return self:gasterize "Choose a file to erase."
-        elseif self.state == "COPY" then
-            if not self.copied_button then
-                return self:gasterize "Choose a file to copy."
-            elseif not self.focused_button then
-                return self:gasterize "Choose a file to copy to."
-            else
-                return self:gasterize "The file will be overwritten."
-            end
-        end
-    end
+    return self:gasterize(self.menu.chapter_name.title)
 end
 
 

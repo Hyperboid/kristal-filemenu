@@ -23,6 +23,8 @@ function FileSelectMenu:init()
     self.chapter_name = Kristal.callEvent("fsGetChapterName") or {
         cancel = "Don't Use Chapter 7 FILE",
         select = "Ch 7 Files",
+        title = "Start Chapter 1 from Chapter 7's FILE",
+        title_DEVICE = "",
     }
 end
 
