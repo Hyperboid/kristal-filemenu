@@ -22,6 +22,7 @@ function FileSelectBackground:init()
     self.background_image_animation = Assets.getFrames("kristal/title_bg_anim")
     self.animation_sine = 0
     self.background_alpha = 1
+    self.background_fade = 0.7
     self.giantdarkdoor = Assets.getTexture("fileselect/giantdarkdoor")
 end
 
@@ -36,6 +37,7 @@ function FileSelectBackground:draw_normal()
     -- We need to draw the background on a canvas
     local bg_canvas = Draw.pushCanvas(320, 240)
     love.graphics.clear(0, 0, 0, 1)
+    love.graphics.translate(0,10)
 
     -- Set the shader to use
     love.graphics.setShader(self.BACKGROUND_SHADER)
@@ -67,7 +69,7 @@ function FileSelectBackground:draw_normal()
     -- Draw the canvas on the screen scaled by 2x
     Draw.setColor(1, 1, 1, self.background_fade)
     -- Draw.draw(bg_canvas, 0, 0, 0, 2, 2)
-    Draw.draw(bg_canvas, 0, 20, 0, 2, 2)
+    Draw.draw(bg_canvas, 0, 0, 0, 2, 2)
 end
 
 function FileSelectBackground:draw_greatdoor()
