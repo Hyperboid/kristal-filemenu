@@ -7,7 +7,7 @@ function Mod:getFileSelectStyle()
     if Kristal.loadData("file_3") then
         return "normal"
     end
-    if Kristal.loadData("file_2") then
+    if Kristal.loadData("file_2") or true then
         return "greatdoor"
     end
     return "DEVICE"
