@@ -2,7 +2,7 @@ function Mod:init()
     print("Loaded "..self.info.name.."!")
 end
 
-function Mod:getFileSelectStyle()
+function Mod:afmGetStyle()
     -- Could check for a Completion Save here
     if Kristal.loadData("file_3") then
         return "normal"

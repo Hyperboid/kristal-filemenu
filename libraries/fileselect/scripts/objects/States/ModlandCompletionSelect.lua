@@ -51,8 +51,8 @@ function ModlandCompletionSelect:onEnter()
         self.container:addChild(button)
     end
     self.bottom_row_heart = { 80, 250, 376 }
-    self.chapter_select = Kristal.getLibConfig("fileselect", "chapterSelect")
-    self.previous_chapter = Kristal.getLibConfig("fileselect", "previousChapter")
+    self.chapter_select = Kristal.getLibConfig("afilemenu", "chapterSelect")
+    self.previous_chapter = Kristal.getLibConfig("afilemenu", "previousChapter")
 end
 
 function ModlandCompletionSelect:onLeave()
@@ -110,7 +110,7 @@ function ModlandCompletionSelect:onKeyPressed(key, is_repeat)
                         self:setState("TRANSITIONING")
                         local id = self.selected_y
                         self:loadCompletionFile(id)
-                        Kristal.callEvent("fsPostInit", true, true)
+                        Kristal.callEvent("afmPostInit", true, true)
                     else
                         self.menu:pushState("FILENAME")
 

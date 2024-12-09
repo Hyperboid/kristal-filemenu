@@ -28,7 +28,7 @@ function FileSelectMenu:init()
     self.heart:setColor(Kristal.getSoulColor())
     self.heart.layer = 100
     self:addChild(self.heart)
-    self.chapter_name = Kristal.callEvent("fsGetChapterName") or {
+    self.chapter_name = Kristal.callEvent("afmGetChapterName") or {
         cancel = "Don't Use Chapter 7 FILE",
         select = "Ch 7 Files",
         title = "Start Chapter 1 from Chapter 7's FILE",

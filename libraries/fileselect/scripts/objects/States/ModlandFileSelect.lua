@@ -51,8 +51,8 @@ function ModlandFileSelect:onEnter()
         self.container:addChild(button)
     end
     self.bottom_row_heart = { 80, 250, 376 }
-    self.chapter_select = Kristal.getLibConfig("fileselect", "chapterSelect")
-    self.previous_chapter = Kristal.getLibConfig("fileselect", "previousChapter")
+    self.chapter_select = Kristal.getLibConfig("afilemenu", "chapterSelect")
+    self.previous_chapter = Kristal.getLibConfig("afilemenu", "previousChapter")
 end
 
 function ModlandFileSelect:onLeave()
@@ -118,13 +118,13 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                         local new_file = not love.filesystem.getInfo(path)
                         if new_file then
                             Game.world:closeMenu()
-                            Game.world:mapTransition(Kristal.getLibConfig("fileselect", "map"))
+                            Game.world:mapTransition(Kristal.getLibConfig("afilemenu", "map"))
                             Game.save_name = Kristal.Config["defaultName"] or Game.save_name
                         else
                             local data = JSON.decode(love.filesystem.read(path))
                             Game:load(data, id, fade)
                         end
-                        Kristal.callEvent("fsPostInit", new_file)
+                        Kristal.callEvent("afmPostInit", new_file)
                     else
                         self.menu:pushState("FILENAME")
 
