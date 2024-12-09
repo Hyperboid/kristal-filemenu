@@ -465,7 +465,7 @@ function ModlandFileSelect:draw()
             Draw.printShadow(self:gasterize(self.menu.chapter_name.select), 108, 380 + 40)
         end
         setColor(2, 5)
-        Draw.printShadow(self:gasterize "Options", self.bottom_row_heart[2] + 28, 380 + 40)
+        Draw.printShadow(self:gasterize "Config", self.bottom_row_heart[2] + 28, 380 + 40)
     else
         setColor(1, 4)
         Draw.printShadow(self:gasterize "Cancel", 110, 380)
