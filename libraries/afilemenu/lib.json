@@ -7,5 +7,7 @@
         "map": null,
         "music": null,
         "style": "DEVICE",
+        // Prevents the special color palette on the Options menu
+        "noStyledOptions": false,
     }
 }

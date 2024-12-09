@@ -72,6 +72,7 @@
             //"music": "mod_menu",
             "previousChapter": "modland_menu_test",
             "chapterSelect": "modland_menu_test",
+            "noStyledOptions": false,
             "style": "greatdoor"
         }
     }
