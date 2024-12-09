@@ -1,0 +1,11 @@
+{
+    "id": "afilemenu",
+    "name": "File Select",
+    "authors": [],
+    "config": {
+        // What map to load on a new file
+        "map": null,
+        "music": null,
+        "style": "DEVICE",
+    }
+}
