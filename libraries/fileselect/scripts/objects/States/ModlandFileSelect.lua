@@ -244,6 +244,8 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
             elseif self.selected_y == 5 then
                 if self.selected_x == 1 then
                     self.menu:pushState("COMPLETION")
+                elseif self.selected_x == 2 then
+                    self.menu:pushState("OPTIONS")
                 elseif self.selected_x == 3 then
                     Game:returnToMenu()
                 end
@@ -256,17 +258,14 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
         if Input.is("left", key) then self.selected_x = self.selected_x - 1 end
         if Input.is("right", key) then self.selected_x = self.selected_x + 1 end
         self.selected_y = Utils.clamp(self.selected_y, 1, 5)
-        if not self.chapter_select and not self.previous_chapter then
-            self.selected_y = Utils.clamp(self.selected_y, 1, 4)
+        if not self.chapter_select and not self.previous_chapter and self.selected_y == 5 then
+            self.selected_x = 2
         elseif self.selected_y ~= 5 then
         elseif self.chapter_select and self.previous_chapter then
-            if Input.is("left", key) then self.selected_x = self.selected_x - 1 end
-            if Input.is("right", key) then self.selected_x = self.selected_x + 1 end
-            if self.selected_x == 2 then self.selected_x = 1 end
         elseif self.chapter_select and not self.previous_chapter then
-            self.selected_x = 3
+            self.selected_x = Utils.clamp(self.selected_x, 2, 3)
         elseif not self.chapter_select and self.previous_chapter then
-            self.selected_x = 1
+            self.selected_x = Utils.clamp(self.selected_x, 1, 2)
         end
         if self.selected_y <= 3 then
             self.selected_x = 1
@@ -465,6 +464,8 @@ function ModlandFileSelect:draw()
             setColor(1, 5)
             Draw.printShadow(self:gasterize(self.menu.chapter_name.select), 108, 380 + 40)
         end
+        setColor(2, 5)
+        Draw.printShadow(self:gasterize "Options", self.bottom_row_heart[2] + 28, 380 + 40)
     else
         setColor(1, 4)
         Draw.printShadow(self:gasterize "Cancel", 110, 380)
