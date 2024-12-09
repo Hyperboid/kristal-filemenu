@@ -29,7 +29,7 @@ function ModlandOptions:draw()
     super.draw(self)
     Draw.popCanvas()
 
-    Draw.setColor(PALETTE["filemenu_selected"])
+    Draw.setColor(PALETTE["filemenu_settings"])
     Draw.draw(canvas, 0, 0)
 end
 

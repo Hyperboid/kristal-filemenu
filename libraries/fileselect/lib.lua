@@ -24,6 +24,11 @@ function lib:getPaletteColor(key)
             default = {1, 1, 0.4},
             DEVICE = {0.5,1,0.5}
         }
+    elseif key == "filemenu_settings" then
+        return bystyle {
+            default = {1, 1, 1},
+            DEVICE = {0.4,1.0,0.2}
+        }
     end
     MUSIC_PITCHES.menu = 0.95
     MUSIC_PITCHES.mod_menu = 0.95
