@@ -1,4 +1,5 @@
 ---@class FileSelectMenu: Object
+---@overload fun(): FileSelectMenu
 local FileSelectMenu, super = Class(Object)
 
 function FileSelectMenu:init()

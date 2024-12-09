@@ -1,3 +1,5 @@
+---@class CompletionFileButton : FileButton
+---@overload fun(): CompletionFileButton
 local CompletionFileButton, super = Class(FileButton)
 
 function CompletionFileButton:setData(data)

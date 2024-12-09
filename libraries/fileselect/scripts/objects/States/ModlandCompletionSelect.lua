@@ -1,5 +1,6 @@
 ---@class ModlandCompletionSelect : StateClass
 ---@field menu FileSelectMenu
+---@overload fun(menu: FileSelectMenu): ModlandCompletionSelect
 local ModlandCompletionSelect, super = Class(StateClass)
 
 function ModlandCompletionSelect:init(menu)

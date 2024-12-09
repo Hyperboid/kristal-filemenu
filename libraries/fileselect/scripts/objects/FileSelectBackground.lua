@@ -1,4 +1,5 @@
 ---@class FileSelectBackground: Object
+---@overload fun(): FileSelectBackground
 local FileSelectBackground, super = Class(Object)
 
 function FileSelectBackground:init()
