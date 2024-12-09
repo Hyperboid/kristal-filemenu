@@ -1,4 +1,5 @@
 ---@class ModlandOptions : MainMenuOptions
+---@overload fun(menu: FileSelectMenu): ModlandOptions
 local ModlandOptions, super = Class(MainMenuOptions)
 
 function ModlandOptions:onKeyPressed(key)

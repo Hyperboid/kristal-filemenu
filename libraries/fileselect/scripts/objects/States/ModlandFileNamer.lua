@@ -4,7 +4,7 @@
 ---
 ---@field file_namer FileNamer
 ---
----@overload fun(menu:ModlandFileNamer) : ModlandFileNamer
+---@overload fun(menu:FileSelectMenu) : ModlandFileNamer
 local ModlandFileNamer, super = Class(StateClass)
 
 function ModlandFileNamer:init(menu)
