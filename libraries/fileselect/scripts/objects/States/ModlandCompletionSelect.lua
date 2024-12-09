@@ -1,19 +1,19 @@
----@class ModlandFileSelect : StateClass
+---@class ModlandCompletionSelect : StateClass
 ---@field menu FileSelectMenu
-local ModlandFileSelect, super = Class(StateClass)
+local ModlandCompletionSelect, super = Class(StateClass)
 
-function ModlandFileSelect:init(menu)
+function ModlandCompletionSelect:init(menu)
     self.menu = menu
     self.state = "SELECT"
     self.result_timer = 0
 end
 
-function ModlandFileSelect:setState(state, result_text)
+function ModlandCompletionSelect:setState(state, result_text)
     self:setResultText(result_text)
     self.state = state
 end
 
-function ModlandFileSelect:registerEvents()
+function ModlandCompletionSelect:registerEvents()
     self:registerEvent("enter", self.onEnter)
     self:registerEvent("leave", self.onLeave)
     self:registerEvent("pause", self.onPause)
@@ -23,17 +23,17 @@ function ModlandFileSelect:registerEvents()
     self:registerEvent("draw", self.draw)
 end
 
-function ModlandFileSelect:onPause()
+function ModlandCompletionSelect:onPause()
     self.container.visible = false
     self.container.active = false
 end
 
-function ModlandFileSelect:onResume()
+function ModlandCompletionSelect:onResume()
     self.container.visible = true
     self.container.active = true
 end
 
-function ModlandFileSelect:onEnter()
+function ModlandCompletionSelect:onEnter()
     self.files = {}
     self.selected_y = 1
     self.selected_x = 1
@@ -41,8 +41,8 @@ function ModlandFileSelect:onEnter()
     self.container = Object()
     self.menu:addChild(self.container)
     for i = 1, 3 do
-        local data = Kristal.loadData("file_" .. i)
-        local button = FileButton(self, i, data, 110, 110 + 90 * (i - 1), 422, 82)
+        local data = self:getCompletionFile(i)
+        local button = CompletionFileButton(self, i, data, 110, 110 + 90 * (i - 1), 422, 82)
         if i == 1 then
             button.selected = true
         end
@@ -54,16 +54,16 @@ function ModlandFileSelect:onEnter()
     self.previous_chapter = Kristal.getLibConfig("fileselect", "previousChapter")
 end
 
-function ModlandFileSelect:onLeave()
+function ModlandCompletionSelect:onLeave()
     -- self.menu:removeChild(self.container)
     self.container:remove()
     self.container = nil
 end
 
--- function ModlandFileSelect:onKeyPressed(key, is_repeat)
+-- function ModlandCompletionSelect:onKeyPressed(key, is_repeat)
 -- end
 
-function ModlandFileSelect:onKeyPressed(key, is_repeat)
+function ModlandCompletionSelect:onKeyPressed(key, is_repeat)
         -- if Input.isMenu(key) then
         --     Assets.stopAndPlaySound("swallow", 1, 1)
         -- elseif Input.isCancel(key) then
@@ -107,23 +107,9 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
 
                     if skip_naming then
                         self:setState("TRANSITIONING")
-                        local save_name = nil
-                        if not button.data and Kristal.Config["skipNameEntry"] and Kristal.Config["defaultName"] ~= "" then
-                            save_name = string.sub(Kristal.Config["defaultName"], 1, Mod.info["nameLimit"] or 12)
-                        end
                         local id = self.selected_y
-                        local fade = true
-                        local path = "saves/" .. Mod.info.id .. "/file_" .. id .. ".json"
-                        local new_file = not love.filesystem.getInfo(path)
-                        if new_file then
-                            Game.world:closeMenu()
-                            Game.world:mapTransition(Kristal.getLibConfig("fileselect", "map"))
-                            Game.save_name = Kristal.Config["defaultName"] or Game.save_name
-                        else
-                            local data = JSON.decode(love.filesystem.read(path))
-                            Game:load(data, id, fade)
-                        end
-                        Kristal.callEvent("fsPostInit", new_file)
+                        self:loadCompletionFile(id)
+                        Kristal.callEvent("fsPostInit", true, true)
                     else
                         self.menu:pushState("FILENAME")
 
@@ -204,47 +190,27 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
             end
         end
     elseif self.state == "SELECT" then
-        if Input.is("confirm", key) then
-            Assets.stopAndPlaySound("ui_select")
+        if Input.is("cancel", key) then
+            self.menu:popState()
+            Assets.playSound("ui_cancel")
+        elseif Input.is("confirm", key) then
             if self.selected_y <= 3 then
                 self.focused_button = self:getSelectedFile()
                 if self.focused_button.data then
+                    Assets.stopAndPlaySound("ui_select")
                     if Game.world.map.menustyle == "DEVICE" then
                         self.focused_button:setChoices({ "CONTINUE", "BACK" })
                     else
                         self.focused_button:setChoices({ "Continue", "Back" })
                     end
                 else
-                    if Game.world.map.menustyle == "DEVICE" then
-                        self.focused_button:setChoices({ "BEGIN", "BACK" })
-                    else
-                        self.focused_button:setChoices({ "Start", "Back" })
-                    end
+                    self.focused_button = nil
+                    Assets.playSound("error")
                 end
             elseif self.selected_y == 4 then
                 if self.selected_x == 1 then
-                    self:setState("COPY")
-                    self.selected_x = 1
-                    self.selected_y = 1
-                    self:updateSelected()
-                elseif self.selected_x == 2 then
-                    self:setState("ERASE")
-                    self.erase_stage = 1
-                    self.selected_x = 1
-                    self.selected_y = 1
-                    self:updateSelected()
-                elseif self.selected_x == 3 then
-                    if self.chapter_select then
-                        self:swapIntoMod(self.chapter_select)
-                    else
-                        Game:returnToMenu()
-                    end
-                end
-            elseif self.selected_y == 5 then
-                if self.selected_x == 1 then
-                    self.menu:pushState("COMPLETION")
-                elseif self.selected_x == 3 then
-                    Game:returnToMenu()
+                    Assets.stopAndPlaySound("ui_select")
+                    self.menu:popState()
                 end
             end
             return true
@@ -252,9 +218,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
         local last_x, last_y = self.selected_x, self.selected_y
         if Input.is("up", key) then self.selected_y = self.selected_y - 1 end
         if Input.is("down", key) then self.selected_y = self.selected_y + 1 end
-        if Input.is("left", key) then self.selected_x = self.selected_x - 1 end
-        if Input.is("right", key) then self.selected_x = self.selected_x + 1 end
-        self.selected_y = Utils.clamp(self.selected_y, 1, 5)
+        self.selected_y = Utils.clamp(self.selected_y, 1, 4)
         if not self.chapter_select and not self.previous_chapter then
             self.selected_y = Utils.clamp(self.selected_y, 1, 4)
         elseif self.selected_y ~= 5 then
@@ -409,7 +373,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
     return true
 end
 
-function ModlandFileSelect:update()
+function ModlandCompletionSelect:update()
     if self.result_timer > 0 then
         self.result_timer = Utils.approach(self.result_timer, 0, DT)
         if self.result_timer == 0 then
@@ -422,7 +386,7 @@ function ModlandFileSelect:update()
     self.menu.heart_target_x, self.menu.heart_target_y = self:getHeartPos()
 end
 
-function ModlandFileSelect:draw()
+function ModlandCompletionSelect:draw()
     local mod_name = string.upper(self.mod.chaptername or self.mod.name or self.mod.id)
     if Game.world.map.menustyle == "DEVICE" then
         Draw.setColor(0,.5,0)
@@ -446,37 +410,17 @@ function ModlandFileSelect:draw()
         end
     end
 
-    if self.state == "SELECT" or self.state == "TRANSITIONING" then
-        setColor(1, 4)
-        Draw.printShadow(self:gasterize "Copy", 108, 380)
-        setColor(2, 4)
-        Draw.printShadow(self:gasterize "Erase", 280, 380)
-        if not self.chapter_select then
-            setColor(3, 4)
-            Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380)
-        else
-            setColor(3, 4)
-            Draw.printShadow(self:gasterize "Chapter Select", self.bottom_row_heart[3] + 28, 380)
-            setColor(3, 5)
-            Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380 + 40)
-        end
-        if self.previous_chapter then
-            setColor(1, 5)
-            Draw.printShadow(self:gasterize(self.menu.chapter_name.select), 108, 380 + 40)
-        end
-    else
-        setColor(1, 4)
-        Draw.printShadow(self:gasterize "Cancel", 110, 380)
-    end
+    setColor(1, 4)
+    Draw.printShadow(self:gasterize(self.menu.chapter_name.cancel), 108, 380)
 
     Draw.setColor(1, 1, 1)
 end
 
-function ModlandFileSelect:getSelectedFile()
+function ModlandCompletionSelect:getSelectedFile()
     return self.files[self.selected_y]
 end
 
-function ModlandFileSelect:updateSelected()
+function ModlandCompletionSelect:updateSelected()
     for i, file in ipairs(self.files) do
         if i == self.selected_y or (self.state == "COPY" and self.copied_button == file) then
             file.selected = true
@@ -486,7 +430,7 @@ function ModlandFileSelect:updateSelected()
     end
 end
 
-function ModlandFileSelect:gasterize(string)
+function ModlandCompletionSelect:gasterize(string)
     if type(string) ~= "string" then return string end
     if Game.world.map.menustyle ~= "DEVICE" then
         return string
@@ -502,7 +446,7 @@ function ModlandFileSelect:gasterize(string)
     return gtable[string] or gtable[string:upper()] or string:upper()
 end
 
-function ModlandFileSelect:getTitle()
+function ModlandCompletionSelect:getTitle()
     if self.result_text then
         return self.result_text
     end
@@ -524,29 +468,19 @@ function ModlandFileSelect:getTitle()
 end
 
 
-function ModlandFileSelect:setResultText(text)
+function ModlandCompletionSelect:setResultText(text)
     self.result_text = self:gasterize(text)
     self.result_timer = 3
 end
 
-function ModlandFileSelect:swapIntoMod(mod)
-    Gamestate.switch({})
-    -- Clear the mod
-    Kristal.clearModState()
-
-    -- Reload mods and return to memu
-    Kristal.loadAssets("", "mods", "", function ()
-        Kristal.loadMod(mod)
-    end)
-
-    Kristal.DebugSystem:refresh()
-    -- End input if it's open
-    if not Kristal.Console.is_open then
-        TextInput.endInput()
-    end
+function ModlandCompletionSelect:getCompletionFile(slot)
+    return Kristal.loadData("completion_"..slot, self.menu.file_select.previous_chapter)
+end
+function ModlandCompletionSelect:loadCompletionFile(slot)
+    Game:load(self:getCompletionFile(slot), slot)
 end
 
-function ModlandFileSelect:getHeartPos()
+function ModlandCompletionSelect:getHeartPos()
     if self.selected_y <= 3 then
         local button = self:getSelectedFile()
         local hx, hy = button:getHeartPos()
@@ -557,4 +491,4 @@ function ModlandFileSelect:getHeartPos()
     end
 end
 
-return ModlandFileSelect
+return ModlandCompletionSelect

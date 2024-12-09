@@ -70,7 +70,8 @@
             "map": "room1",
             // "music": "silent",
             //"music": "mod_menu",
-            "chapterSelect": "example",
+            "previousChapter": "modland_menu_test",
+            "chapterSelect": "modland_menu_test",
             "style": "greatdoor"
         }
     }

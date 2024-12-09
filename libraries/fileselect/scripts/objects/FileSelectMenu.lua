@@ -6,9 +6,11 @@ function FileSelectMenu:init()
     self.heart_target_x, self.heart_target_y = 0,0
     self.state_manager = StateManager("", self, true)
     self.file_select = ModlandFileSelect(self)
+    self.completion_select = ModlandCompletionSelect(self)
     self.file_namer = ModlandFileNamer(self)
     self.state_manager:addState("FILESELECT", self.file_select)
     self.state_manager:addState("FILENAME", self.file_namer)
+    self.state_manager:addState("COMPLETION", self.completion_select)
     self.font = Assets.getFont("main")
     
     self.heart = Sprite("player/heart_menu")
@@ -18,6 +20,10 @@ function FileSelectMenu:init()
     self.heart:setColor(Kristal.getSoulColor())
     self.heart.layer = 100
     self:addChild(self.heart)
+    self.chapter_name = Kristal.callEvent("fsGetChapterName") or {
+        cancel = "Don't Use Chapter 7 FILE",
+        select = "Ch 7 Files",
+    }
 end
 
 function FileSelectMenu:onAddToStage()
@@ -41,6 +47,7 @@ function FileSelectMenu:draw()
     love.graphics.setFont(self.font)
     super.draw(self)
     self.file_select.mod = self.file_select.mod or Mod.info
+    self.completion_select.mod = self.completion_select.mod or Mod.info
     self.state_manager:draw()
 end
 
