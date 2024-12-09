@@ -49,7 +49,10 @@ function ModlandFileSelect:onEnter()
         table.insert(self.files, button)
         self.container:addChild(button)
     end
-    self.bottom_row_heart = { 80, 250, 400 }
+    self.bottom_row_heart = { 80, 250, 376 }
+    self.chapter_select = Kristal.getLibConfig("fileselect", "chapterSelect")
+    self.previous_chapter = Kristal.getLibConfig("fileselect", "previousChapter")
+    self.completion_files_name = "Ch 7 Files"
 end
 
 function ModlandFileSelect:onLeave()
@@ -232,10 +235,17 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
                     self.selected_y = 1
                     self:updateSelected()
                 elseif self.selected_x == 3 then
-                    Game:returnToMenu()
-                    if MainMenu.mod_list:getSelectedMod().soulColor then
-                        MainMenu.heart.color = MainMenu.mod_list:getSelectedMod().soulColor
+                    if self.chapter_select then
+                        self:swapIntoMod(self.chapter_select)
+                    else
+                        Game:returnToMenu()
                     end
+                end
+            elseif self.selected_y == 5 then
+                if self.selected_x == 1 then
+                    self.menu:pushState("COMPLETION")
+                elseif self.selected_x == 3 then
+                    Game:returnToMenu()
                 end
             end
             return true
@@ -245,7 +255,19 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
         if Input.is("down", key) then self.selected_y = self.selected_y + 1 end
         if Input.is("left", key) then self.selected_x = self.selected_x - 1 end
         if Input.is("right", key) then self.selected_x = self.selected_x + 1 end
-        self.selected_y = Utils.clamp(self.selected_y, 1, 4)
+        self.selected_y = Utils.clamp(self.selected_y, 1, 5)
+        if not self.chapter_select and not self.previous_chapter then
+            self.selected_y = Utils.clamp(self.selected_y, 1, 4)
+        elseif self.selected_y ~= 5 then
+        elseif self.chapter_select and self.previous_chapter then
+            if Input.is("left", key) then self.selected_x = self.selected_x - 1 end
+            if Input.is("right", key) then self.selected_x = self.selected_x + 1 end
+            if self.selected_x == 2 then self.selected_x = 1 end
+        elseif self.chapter_select and not self.previous_chapter then
+            self.selected_x = 3
+        elseif not self.chapter_select and self.previous_chapter then
+            self.selected_x = 1
+        end
         if self.selected_y <= 3 then
             self.selected_x = 1
         else
@@ -430,8 +452,19 @@ function ModlandFileSelect:draw()
         Draw.printShadow(self:gasterize "Copy", 108, 380)
         setColor(2, 4)
         Draw.printShadow(self:gasterize "Erase", 280, 380)
-        setColor(3, 4)
-        Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380)
+        if not self.chapter_select then
+            setColor(3, 4)
+            Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380)
+        else
+            setColor(3, 4)
+            Draw.printShadow(self:gasterize "Chapter Select", self.bottom_row_heart[3] + 28, 380)
+            setColor(3, 5)
+            Draw.printShadow(self:gasterize "Mod Select", self.bottom_row_heart[3] + 28, 380 + 40)
+        end
+        if self.previous_chapter then
+            setColor(1, 5)
+            Draw.printShadow(self:gasterize(self.completion_files_name), 108, 380 + 40)
+        end
     else
         setColor(1, 4)
         Draw.printShadow(self:gasterize "Cancel", 110, 380)
@@ -497,14 +530,31 @@ function ModlandFileSelect:setResultText(text)
     self.result_timer = 3
 end
 
+function ModlandFileSelect:swapIntoMod(mod)
+    Gamestate.switch({})
+    -- Clear the mod
+    Kristal.clearModState()
+
+    -- Reload mods and return to memu
+    Kristal.loadAssets("", "mods", "", function ()
+        Kristal.loadMod(mod)
+    end)
+
+    Kristal.DebugSystem:refresh()
+    -- End input if it's open
+    if not Kristal.Console.is_open then
+        TextInput.endInput()
+    end
+end
+
 function ModlandFileSelect:getHeartPos()
     if self.selected_y <= 3 then
         local button = self:getSelectedFile()
         local hx, hy = button:getHeartPos()
         local x, y = button:getRelativePos(hx, hy)
         return x + 9, y + 9
-    elseif self.selected_y == 4 then
-        return self.bottom_row_heart[self.selected_x] + 9, 390 + 9
+    elseif self.selected_y >= 4 then
+        return self.bottom_row_heart[self.selected_x] + 9, 390 + 9 + (self.selected_y - 4) * 40
     end
 end
 

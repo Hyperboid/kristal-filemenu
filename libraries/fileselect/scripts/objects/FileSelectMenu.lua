@@ -3,6 +3,7 @@ local FileSelectMenu, super = Class(Object)
 
 function FileSelectMenu:init()
     super.init(self)
+    self.heart_target_x, self.heart_target_y = 0,0
     self.state_manager = StateManager("", self, true)
     self.file_select = ModlandFileSelect(self)
     self.file_namer = ModlandFileNamer(self)
