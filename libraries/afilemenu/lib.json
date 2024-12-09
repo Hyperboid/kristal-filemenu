@@ -1,7 +1,9 @@
 {
     "id": "afilemenu",
     "name": "File Select",
-    "authors": [],
+    "authors": [
+        "Hyperboid",
+    ],
     "config": {
         // What map to load on a new file
         "map": null,
