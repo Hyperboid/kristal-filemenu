@@ -3,9 +3,10 @@ local map, super = Class(Map)
 function map:init(world,data)
     super.init(self,world,data)
     self.menu = FileSelectMenu()
-    self.music = Kristal.callEvent("getFileSelectMusic") or Kristal.getLibConfig("fileselect", "music")
     self.menustyle = Kristal.callEvent("getFileSelectStyle") or Kristal.getLibConfig("fileselect", "style")
-    self.music = self.music or ({
+    self.music = Kristal.callEvent("getFileSelectMusic", self.menustyle)
+    or Kristal.getLibConfig("fileselect", "music")
+    or ({
         normal = "mod_menu",
         greatdoor = "menu",
         DEVICE = "AUDIO_DRONE"
