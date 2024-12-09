@@ -14,6 +14,11 @@ function FileSelectMenu:init()
     self.state_manager:addState("FILENAME", self.file_namer)
     self.state_manager:addState("COMPLETION", self.completion_select)
     self.state_manager:addState("OPTIONS", self.options)
+
+    -- OPTIONS substates
+    self.state_manager:addState("CONTROLS", MainMenuControls(self--[[@as MainMenu]]))
+    self.state_manager:addState("DEFAULTNAME", MainMenuDefaultName(self--[[@as MainMenu]]))
+
     self.font = Assets.getFont("main")
     
     self.heart = Sprite("player/heart_menu")
@@ -39,12 +44,12 @@ function FileSelectMenu:onAddToStage()
     end
 end
 
-function FileSelectMenu:setState(state)
-    self.state_manager:setState(state)
+function FileSelectMenu:setState(state, ...)
+    self.state_manager:setState(state, ...)
 end
 
-function FileSelectMenu:pushState(state)
-    self.state_manager:pushState(state)
+function FileSelectMenu:pushState(state, ...)
+    self.state_manager:pushState(state, ...)
 end
 
 function FileSelectMenu:popState(...)
