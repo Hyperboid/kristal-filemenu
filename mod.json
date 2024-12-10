@@ -73,7 +73,8 @@
             "previousChapter": "modland_menu_test",
             "chapterSelect": "modland_menu_test",
             "noStyledOptions": false,
-            "style": "greatdoor"
+            "style": "greatdoor",
+            "hookOverlay": true,
         }
     }
 }
