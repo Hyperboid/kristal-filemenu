@@ -1,3 +1,7 @@
+if not Kristal.getLibConfig("afilemenu", "configMenuOverride") then
+    return DarkConfigMenu
+end
+
 local DarkConfigMenu, super = Class(DarkConfigMenu)
 
 function DarkConfigMenu:update()
