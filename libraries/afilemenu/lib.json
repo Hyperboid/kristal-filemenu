@@ -11,5 +11,7 @@
         "style": "DEVICE",
         // Prevents the special color palette on the Options menu
         "noStyledOptions": false,
+        // Set to false if you are hooking DarkConfigMenu yourself.
+        "configButtonOverride": true,
     }
 }
