@@ -91,21 +91,34 @@ function ModlandFileSelect:updateSelected()
 end
 
 function ModlandFileSelect:getText(string)
-    string = super.getText(self,string)
+    local super_text = super.getText(self,string)
     if type(string) ~= "string" then return string end
     if Game.world.map.menustyle ~= "DEVICE" then
-        return string
+        return super_text
     end
     local gtable = {
-        ["Please select a file."] = "",
-        ["Choose a file to copy."] = "CHOOSE THE ONE TO COPY.",
-        ["Choose a file to copy to."] = "CHOOSE THE TARGET FOR THE REFLECTION.",
-        ["Choose a file to erase."] = "CHOOSE THE ONE TO ERASE.",
-        ["You can't copy there."] = "IT IS IMMUNE TO ITS OWN IMAGE.",
-        ["Start"] = "BEGIN",
-        ["Cancel"] = "        CANCEL"
+        SelectionTitle = "",
+        Copy = "CHOOSE THE ONE TO COPY.",
+        CopyTo = "CHOOSE THE TARGET FOR THE REFLECTION.",
+        Erase = "SELECT THE ONE TO ERASE.",
+        CopySelf = "IT IS IMMUNE TO ITS OWN IMAGE.",
+        Start = "BEGIN",
+        Cancel = "        CANCEL",
+        EraseEmpty = "BUT IT WAS ALREADY GONE.",
+        CopyEmpty = "IT IS BARREN AND CANNOT BE COPIED.",
+        CopyComplete = "THE DIVISION IS COMPLETE.",
+        CopyCompleteOverw = "IT CONFORMED TO THE REFLECTION.",
+        EraseComplete = "IT WAS AS IF IT WAS NEVER THERE AT ALL.",
+        CopyOver = "IT WILL BE SUBSUMED.",
+        CopyOverTitle = "IT WILL BE SUBSUMED.",
+        EraseConfirm = "TRULY ERASE IT?",
+        EraseFinalConfirm = "THEN IT WILL BE DESTROYED.",
+        EraseFinalYes = "ERASE",
+        EraseFinalNo = "DO NOT",
+        EraseSpared = "THEN IT WAS SPARED.",
+        EraseThreatReached = "VERY INTERESTING.",
     }
-    return gtable[string] or gtable[string:upper()] or string:upper()
+    return gtable[string] or gtable[string:upper()] or super_text:upper()
 end
 
 function ModlandFileSelect:processExtraButton(id)
