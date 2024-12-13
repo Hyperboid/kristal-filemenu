@@ -1,5 +1,7 @@
 function Mod:init()
     print("Loaded "..self.info.name.."!")
+    -- Make it obvious when the mod reloads
+    Assets.playSound("bell", .2, 1)
 end
 
 function Mod:afmGetStyle()

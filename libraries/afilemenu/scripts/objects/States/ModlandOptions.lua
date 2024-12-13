@@ -35,14 +35,14 @@ function ModlandOptions:draw()
     local title = self.options[page].name
     local title_width = menu_font:getWidth(title)
 
-    Draw.setColor(PALETTE["filemenu_deselected"], 0.7)
+    Draw.setColor(PALETTE["fileselect_deselected"], 0.7)
     Draw.printShadow("( OPTIONS )", 0, 0, 2, "center", 640)
 
-    Draw.setColor(PALETTE["filemenu_deselected"])
+    Draw.setColor(PALETTE["fileselect_deselected"])
     Draw.printShadow(title, 0, 48, 2, "center", 640)
 
     if self.state == "MENU" and #self.pages > 1 then
-        love.graphics.setColor(PALETTE["filemenu_selected"])
+        love.graphics.setColor(PALETTE["fileselect_selected"])
 
         local l_offset, r_offset = 0, 0
 
@@ -55,20 +55,20 @@ function ModlandOptions:draw()
         end
 
         if self.selected_page >= #self.pages then
-            Draw.setColor(PALETTE["filemenu_deselected"], 0.4)
+            Draw.setColor(PALETTE["fileselect_deselected"], 0.4)
         else
-            Draw.setColor(PALETTE["filemenu_deselected"])
+            Draw.setColor(PALETTE["fileselect_deselected"])
         end
         Draw.draw(Assets.getTexture("kristal/menu_arrow_right"), 320 + (title_width / 2) + 8 + r_offset, 52, 0, 2, 2)
 
         if self.selected_page == 1 then
-            Draw.setColor(PALETTE["filemenu_deselected"], 0.4)
+            Draw.setColor(PALETTE["fileselect_deselected"], 0.4)
         else
-            Draw.setColor(PALETTE["filemenu_deselected"])
+            Draw.setColor(PALETTE["fileselect_deselected"])
         end
         Draw.draw(Assets.getTexture("kristal/menu_arrow_left"), 320 - (title_width / 2) - 26 + l_offset, 52, 0, 2, 2)
 
-        Draw.setColor(PALETTE["filemenu_selected"])
+        Draw.setColor(PALETTE["fileselect_selected"])
     end
 
     local menu_x = 185 - 14
@@ -87,9 +87,9 @@ function ModlandOptions:draw()
         local y = menu_y + 32 * (i - 1)
 
         if self.selected_option == i then
-            Draw.setColor(PALETTE["filemenu_selected"])
+            Draw.setColor(PALETTE["fileselect_selected"])
         else
-            Draw.setColor(PALETTE["filemenu_deselected"])
+            Draw.setColor(PALETTE["fileselect_deselected"])
         end
 
         Draw.printShadow(option.name, menu_x, y)
@@ -118,9 +118,9 @@ function ModlandOptions:draw()
     end
 
     if self.selected_option == #options + 1 then
-        Draw.setColor(PALETTE["filemenu_selected"])
+        Draw.setColor(PALETTE["fileselect_selected"])
     else
-        Draw.setColor(PALETTE["filemenu_deselected"])
+        Draw.setColor(PALETTE["fileselect_deselected"])
     end
 
     Draw.printShadow("Back", 0, 454 - 8, 2, "center", 640)

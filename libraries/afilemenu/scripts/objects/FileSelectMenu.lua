@@ -8,7 +8,7 @@ function FileSelectMenu:init()
     self.state_manager = StateManager("", self, true)
     self.file_select = ModlandFileSelect(self)
     self.completion_select = ModlandCompletionSelect(self)
-    self.file_namer = ModlandFileNamer(self)
+    self.file_namer = MainMenuFileName(self)
     self.options = ModlandOptions(self)
     self.state_manager:addState("FILESELECT", self.file_select)
     self.state_manager:addState("FILENAME", self.file_namer)
@@ -28,6 +28,9 @@ function FileSelectMenu:init()
     self.heart:setColor(Kristal.getSoulColor())
     self.heart.layer = 100
     self:addChild(self.heart)
+    self.container = self
+    self.selected_mod = Mod.info
+    self.fader = self.fader or self:addChild(Fader())
     self.chapter_name = Kristal.callEvent("afmGetChapterName") or {
         cancel = "Don't Use Chapter 7 FILE",
         select = "Ch 7 Files",
@@ -37,9 +40,9 @@ function FileSelectMenu:init()
 end
 
 function FileSelectMenu:onAddToStage()
-    -- self.state_manager:setState("FILESELECT")
     self.state_manager:setState("FILESELECT")
-    if not Kristal.hasAnySaves(Mod.info.id) and self.file_select.previous_chapter then
+    if not Kristal.hasAnySaves(Mod.info.id) and Kristal.getLibConfig("afilemenu", "previousChapter") then
+        Assets.playSound("alert")
         self:pushState("COMPLETION")
     end
 end
@@ -58,10 +61,8 @@ end
 
 function FileSelectMenu:draw()
     love.graphics.setFont(self.font)
-    super.draw(self)
-    self.file_select.mod = self.file_select.mod or Mod.info
-    self.completion_select.mod = self.completion_select.mod or Mod.info
     self.state_manager:draw()
+    super.draw(self)
 end
 
 function FileSelectMenu:update()
@@ -74,12 +75,12 @@ function FileSelectMenu:update()
         if (math.abs((self.heart_target_y - self.heart.y)) <= 2) then
             self.heart.y = self.heart_target_y
         end
-        self.heart.x = self.heart.x + ((self.heart_target_x - self.heart.x) / 2) * DTMULT
-        self.heart.y = self.heart.y + ((self.heart_target_y - self.heart.y) / 2) * DTMULT
+        self.heart.x = self.heart.x + ((self.heart_target_x - self.heart.x) / 2) * (DTMULT/1)
+        self.heart.y = self.heart.y + ((self.heart_target_y - self.heart.y) / 2) * (DTMULT/1)
     end
 end
 
-function FileSelectMenu:loadGame(id)
+function FileSelectMenu:loadGame(id, name)
     local path = "saves/" .. Mod.info.id .. "/file_" .. id .. ".json"
     local fade = true
     if love.filesystem.getInfo(path) then
@@ -87,6 +88,12 @@ function FileSelectMenu:loadGame(id)
         Game:load(data, id, fade)
     else
         Game:load(nil, id, fade)
+        self:remove()
+        Game.playtime = 0
+        Game.save_id = id or Game.save_id
+        Game.save_name = name or Game.save_name
+        Game.world:loadMap(Kristal.getLibConfig("afilemenu", "map"))
+        -- self:setState("")
     end
 end
 

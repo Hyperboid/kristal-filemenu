@@ -35,6 +35,7 @@ function ModlandCompletionSelect:onResume()
 end
 
 function ModlandCompletionSelect:onEnter()
+    self.mod = self.menu.selected_mod
     self.files = {}
     self.selected_y = 1
     self.selected_x = 1
@@ -247,9 +248,9 @@ function ModlandCompletionSelect:draw()
 
     local function setColor(x, y)
         if self.selected_x == x and self.selected_y == y then
-            Draw.setColor(PALETTE["filemenu_selected"])
+            Draw.setColor(PALETTE["fileselect_selected"])
         else
-            Draw.setColor(PALETTE["filemenu_deselected"])
+            Draw.setColor(PALETTE["fileselect_deselected"])
         end
     end
 
