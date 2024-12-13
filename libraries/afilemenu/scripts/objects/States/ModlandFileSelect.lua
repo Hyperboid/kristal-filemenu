@@ -34,7 +34,6 @@ function ModlandFileSelect:onEnter()
             end
         end
     end
-    self.threat = 0
 end
 
 function ModlandFileSelect:onLeave()
