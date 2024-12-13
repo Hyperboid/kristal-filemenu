@@ -74,6 +74,7 @@
             "chapterSelect": "modland_menu_test",
             "noStyledOptions": false,
             "style": "greatdoor",
+            "configMenuOverride": true,
             "hookOverlay": true,
         }
     }
