@@ -75,6 +75,11 @@ function lib:getPaletteColor(key)
             default = {1, 1, 1},
             DEVICE = {0,1,0}
         }
+    elseif key == "filemenu_header" then
+        return bystyle {
+            default = {1, 1, 1},
+            DEVICE = {0,.5,0}
+        }
     elseif key == "filemenu_copy" then
         return bystyle {
             default = {1, 1, 0.4},
