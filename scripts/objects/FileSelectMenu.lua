@@ -60,8 +60,6 @@ end
 
 function FileSelectMenu:draw()
     love.graphics.setFont(self.font)
-    self.file_select.mod = self.file_select.mod or Mod.info
-    self.completion_select.mod = self.completion_select.mod or Mod.info
     self.state_manager:draw()
     super.draw(self)
 end

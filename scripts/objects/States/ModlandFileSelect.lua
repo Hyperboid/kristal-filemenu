@@ -424,16 +424,10 @@ end
 
 function ModlandFileSelect:draw()
     local mod_name = string.upper((Kristal.getLibConfig("afilemenu", "chaptername").long).." "..(Kristal.getLibConfig("afilemenu", "chapter") or Game.chapter))
-    if Game.world.map.menustyle == "DEVICE" then
-        Draw.setColor(0,.5,0)
-    else
-        Draw.setColor(1,1,1)
-    end
+    Draw.setColor(PALETTE["filemenu_header"])
     Draw.printShadow(mod_name, 16, 8)
-
-    if Game.world.map.menustyle == "DEVICE" then
-        Draw.setColor(0,1,0)
-    end
+    
+    Draw.setColor(PALETTE["filemenu_selected"])
     
     Draw.printShadow(self:getTitle(), 80, 60)
     
