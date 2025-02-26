@@ -59,7 +59,6 @@
     // this option is explicitly set to false; else, it's done if this is set to true.
     "setWindowTitleAndIcon": null,
 
-    "chaptername": "CHAPTER 1",
     // Config values for the engine and any libraries you may have.
     // These config values can control chapter-specific features as well.
     "config": {
@@ -67,6 +66,11 @@
             // End of config
         },
         "afilemenu": {
+            "chaptername": {
+                "long":"Episode",
+                "short": "Ep"
+            },
+            "chapter": 7,
             "map": "room1",
             // "music": "silent",
             //"music": "mod_menu",

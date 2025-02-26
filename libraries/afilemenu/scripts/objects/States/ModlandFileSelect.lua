@@ -423,7 +423,7 @@ function ModlandFileSelect:update()
 end
 
 function ModlandFileSelect:draw()
-    local mod_name = string.upper(self.mod.chaptername or self.mod.name or self.mod.id)
+    local mod_name = string.upper((Kristal.getLibConfig("afilemenu", "chaptername").long).." "..(Kristal.getLibConfig("afilemenu", "chapter") or Game.chapter))
     if Game.world.map.menustyle == "DEVICE" then
         Draw.setColor(0,.5,0)
     else
