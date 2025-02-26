@@ -28,10 +28,12 @@ function FileSelectMenu:init()
     self.heart:setColor(Kristal.getSoulColor())
     self.heart.layer = 100
     self:addChild(self.heart)
+    local chapter = Kristal.getLibConfig("afilemenu", "chapter") or Game.chapter
+    local chapter_name = Kristal.getLibConfig("afilemenu", "chaptername", true)
     self.chapter_name = Kristal.callEvent("afmGetChapterName") or {
-        cancel = "Don't Use Chapter 7 FILE",
-        select = "Ch 7 Files",
-        title = "Start Chapter 1 from Chapter 7's FILE",
+        cancel = "Don't Use "..chapter_name.long.." "..(chapter-1).." FILE",
+        select = chapter_name.short.." "..(chapter-1).." Files",
+        title = "Start "..chapter_name.long.." "..chapter.." from "..chapter_name.long.." "..(chapter-1).."'s FILE",
         title_DEVICE = "",
     }
 end
