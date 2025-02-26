@@ -87,16 +87,9 @@ function FileButton:draw()
         love.graphics.print(self.choices[2], 250+2, 44+2)
         -- Draw choice 2
         if self.selected_choice == 2 then
-            Draw.setColor(1, 1, 1)
+            Draw.setColor(PALETTE["filemenu_selected"])
         else
             Draw.setColor(PALETTE["filemenu_deselected"])
-        end
-        if Game.world.map.menustyle == "DEVICE" then
-            if self.selected_choice == 2 then
-                Draw.setColor(0, 1, 0)
-            else
-                Draw.setColor(0, 0.5, 0)
-            end
         end
         love.graphics.print(self.choices[2], 250, 44)
     end
