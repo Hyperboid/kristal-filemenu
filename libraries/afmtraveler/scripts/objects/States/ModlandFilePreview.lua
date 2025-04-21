@@ -59,9 +59,10 @@ function ModlandFilePreview:onEnter(_, button, slot)
     self.slot = slot
     self:onResume()
     local music = self:getMusic()
-    self.resume_music = Game.world.music:isPlaying()
+    self.resume_music = false
     self.music = Music()
     if music and music ~= Game.world.music.current then
+        self.resume_music = Game.world.music:isPlaying()
         Game.world.music:pause()
         self.music:play(music)
     end
