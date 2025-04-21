@@ -2,7 +2,7 @@
 ---@overload fun(options?:table) : UnderFileNamer
 local UnderFileNamer, super = Class(Object)
 
---function UnderFileNamer:init(limit, callback, name_text, confirm_text, default_name, default_name_select)
+-- TODO: Make it undertale
 function UnderFileNamer:init(options)
     super.init(self, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)
 
