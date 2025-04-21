@@ -33,6 +33,10 @@ function ModlandFileStartScreen:onKeyPressed(key)
         else
             self.menu:pushState("FILENAME")
         end
+    elseif Input.isConfirm(key) and self.selected_y == 2 then
+        self.menu:pushState("OPTIONS")
+        self.menu.heart:setPosition(self.menu.heart_target_x, self.menu.heart_target_y)
+        Assets.playSound("ui_select")
     elseif Input.is("up", key) and self.selected_y == 2 then
         self.selected_y = 1
         Assets.playSound("ui_move")
@@ -62,7 +66,11 @@ function ModlandFileStartScreen:draw()
     Draw.setColor(self.selected_y == 1 and COLORS.yellow or COLORS.white)
     love.graphics.print("Begin Game", 170, 344)
     Draw.setColor(self.selected_y == 2 and COLORS.yellow or COLORS.white)
-    love.graphics.print("Return", 170, 384)
+    if #self.menu.state_manager.state_stack > 0 then
+        love.graphics.print("Return", 170, 384)
+    else
+        love.graphics.print("Options", 170, 384) -- TODO: Did it say "Settings"?
+    end
 end
 
 function ModlandFileStartScreen:onResume()
