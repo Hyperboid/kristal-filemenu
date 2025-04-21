@@ -1,17 +1,17 @@
----@class ModlandFileNamer : StateClass
+---@class ModlandUnderFileNamer : StateClass
 ---
 ---@field menu FileSelectMenu
 ---
----@field file_namer FileNamer
+---@field file_namer UnderFileNamer
 ---
----@overload fun(menu:FileSelectMenu) : ModlandFileNamer
-local ModlandFileNamer, super = Class(StateClass)
+---@overload fun(menu:FileSelectMenu) : ModlandUnderFileNamer
+local ModlandUnderFileNamer, super = Class(StateClass)
 
-function ModlandFileNamer:init(menu)
+function ModlandUnderFileNamer:init(menu)
     self.menu = menu
 end
 
-function ModlandFileNamer:registerEvents()
+function ModlandUnderFileNamer:registerEvents()
     self:registerEvent("enter", self.onEnter)
     self:registerEvent("leave", self.onLeave)
     self:registerEvent("draw", self.draw)
@@ -21,10 +21,10 @@ end
 -- Callbacks
 -------------------------------------------------------------------------------
 
-function ModlandFileNamer:onEnter(old_state)
+function ModlandUnderFileNamer:onEnter(old_state)
     local mod = Mod.info
 
-    self.file_namer = (UnderFileNamer or FileNamer)({
+    self.file_namer = UnderFileNamer({
         name = mod.nameInput ~= "force" and string.sub(Kristal.Config["defaultName"], 1, mod["nameLimit"] or 12),
         limit = mod["nameLimit"] or 12,
 
@@ -62,16 +62,16 @@ function ModlandFileNamer:onEnter(old_state)
     self.menu.heart.visible = false
 end
 
-function ModlandFileNamer:onLeave(new_state)
+function ModlandUnderFileNamer:onLeave(new_state)
     self.file_namer:remove()
     self.file_namer = nil
 
     self.menu.heart.visible = true
 end
 
-function ModlandFileNamer:draw()
+function ModlandUnderFileNamer:draw()
     local mod_name = string.upper(Mod.info.name or Mod.info.id)
-    Draw.printShadow(mod_name, 16, 8)
+    -- Draw.printShadow(mod_name, 16, 8)
 end
 
-return ModlandFileNamer
+return ModlandUnderFileNamer

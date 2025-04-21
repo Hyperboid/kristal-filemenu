@@ -1,0 +1,10 @@
+{
+    "id": "afmtraveler",
+    "authors": [
+        "Hyperboid", // Programming
+        "VyletBunni" // Making DELTATRAVELER
+    ],
+    "dependencies": [
+        "afilemenu"
+    ]
+}

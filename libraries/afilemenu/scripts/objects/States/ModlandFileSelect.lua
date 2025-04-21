@@ -65,11 +65,12 @@ end
 -- end
 
 function ModlandFileSelect:onKeyPressed(key, is_repeat)
-        -- if Input.isMenu(key) then
-        --     Assets.stopAndPlaySound("swallow", 1, 1)
-        -- elseif Input.isCancel(key) then
-        --     self.menu.state_manager:pushState("FILENAME")
-        -- end
+        if Input.isCancel(key) then
+            Assets.stopAndPlaySound("ui_cancel", 1, 1)
+            if #self.menu.state_manager.state_stack > 0 then
+                self.menu.state_manager:popState()
+            end
+        end
     if is_repeat or self.state == "TRANSITIONING" then
         return true
     end
@@ -208,20 +209,7 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
         if Input.is("confirm", key) then
             Assets.stopAndPlaySound("ui_select")
             if self.selected_y <= 3 then
-                self.focused_button = self:getSelectedFile()
-                if self.focused_button.data then
-                    if Game.world.map.menustyle == "DEVICE" then
-                        self.focused_button:setChoices({ "CONTINUE", "BACK" })
-                    else
-                        self.focused_button:setChoices({ "Continue", "Back" })
-                    end
-                else
-                    if Game.world.map.menustyle == "DEVICE" then
-                        self.focused_button:setChoices({ "BEGIN", "BACK" })
-                    else
-                        self.focused_button:setChoices({ "Start", "Back" })
-                    end
-                end
+                self:onSelectFile(self:getSelectedFile())
             elseif self.selected_y == 4 then
                 if self.selected_x == 1 then
                     self:setState("COPY")
@@ -409,6 +397,23 @@ function ModlandFileSelect:onKeyPressed(key, is_repeat)
     return true
 end
 
+function ModlandFileSelect:onSelectFile(button, slot)
+    self.focused_button = button
+    if self.focused_button.data then
+        if Game.world.map.menustyle == "DEVICE" then
+            self.focused_button:setChoices({ "CONTINUE", "BACK" })
+        else
+            self.focused_button:setChoices({ "Continue", "Back" })
+        end
+    else
+        if Game.world.map.menustyle == "DEVICE" then
+            self.focused_button:setChoices({ "BEGIN", "BACK" })
+        else
+            self.focused_button:setChoices({ "Start", "Back" })
+        end
+    end
+end
+
 function ModlandFileSelect:update()
     if self.result_timer > 0 then
         self.result_timer = Utils.approach(self.result_timer, 0, DT)
@@ -469,7 +474,7 @@ function ModlandFileSelect:draw()
 end
 
 function ModlandFileSelect:getSelectedFile()
-    return self.files[self.selected_y]
+    return self.files[self.selected_y], self.selected_y
 end
 
 function ModlandFileSelect:updateSelected()
