@@ -76,6 +76,9 @@ end
 ---@param data SaveData
 ---@param slot integer
 function ModlandFileStartScreen:onEnter(_, data, slot)
+    if self.menu.background then
+        self.menu.background.visible = false
+    end
     self.data = data
     self.slot = slot
     self.selected_y = 1
@@ -107,11 +110,14 @@ function ModlandFileStartScreen:getMusic()
     if self.data and self.data.flags and (self.data.flags.menu_music ~= nil) then
         return self.data.flags.menu_music
     end
-    return nil
+    return "ut_menu0"
 end
 
 function ModlandFileStartScreen:onLeave()
     self:onPause()
+    if self.menu.background then
+        self.menu.background.visible = true
+    end
     self.music:remove()
     if self.resume_music then
         Game.world.music:resume()

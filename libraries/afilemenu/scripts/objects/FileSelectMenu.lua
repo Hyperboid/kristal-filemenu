@@ -1,4 +1,5 @@
 ---@class FileSelectMenu: Object
+---@field background FileSelectBackground?
 ---@overload fun(): FileSelectMenu
 local FileSelectMenu, super = Class(Object)
 
