@@ -1,6 +1,6 @@
 ---@class ModlandFileNamer : StateClass
 ---
----@field menu ModlandFileNamer
+---@field menu FileSelectMenu
 ---
 ---@field file_namer FileNamer
 ---
@@ -24,7 +24,7 @@ end
 function ModlandFileNamer:onEnter(old_state)
     local mod = Mod.info
 
-    self.file_namer = FileNamer({
+    self.file_namer = (UnderFileNamer or FileNamer)({
         name = mod.nameInput ~= "force" and string.sub(Kristal.Config["defaultName"], 1, mod["nameLimit"] or 12),
         limit = mod["nameLimit"] or 12,
 

@@ -6,18 +6,8 @@ function FileSelectMenu:init()
     super.init(self)
     self.heart_target_x, self.heart_target_y = 0,0
     self.state_manager = StateManager("", self, true)
-    self.file_select = ModlandFileSelect(self)
-    self.completion_select = ModlandCompletionSelect(self)
-    self.file_namer = ModlandFileNamer(self)
-    self.options = ModlandOptions(self)
-    self.state_manager:addState("FILESELECT", self.file_select)
-    self.state_manager:addState("FILENAME", self.file_namer)
-    self.state_manager:addState("COMPLETION", self.completion_select)
-    self.state_manager:addState("OPTIONS", self.options)
-
-    -- OPTIONS substates
-    self.state_manager:addState("CONTROLS", MainMenuControls(self--[[@as MainMenu]]))
-    self.state_manager:addState("DEFAULTNAME", MainMenuDefaultName(self--[[@as MainMenu]]))
+    self:initStateclasses()
+    self:initStates()
 
     self.font = Assets.getFont("main")
     
@@ -38,8 +28,25 @@ function FileSelectMenu:init()
     }
 end
 
+function FileSelectMenu:initStateclasses()
+    self.file_select = ModlandFileSelect(self)
+    self.completion_select = ModlandCompletionSelect(self)
+    self.file_namer = ModlandFileNamer(self)
+    self.options = ModlandOptions(self)
+end
+
+function FileSelectMenu:initStates()
+    self.state_manager:addState("FILESELECT", self.file_select)
+    self.state_manager:addState("FILENAME", self.file_namer)
+    self.state_manager:addState("COMPLETION", self.completion_select)
+    self.state_manager:addState("OPTIONS", self.options)
+
+    -- OPTIONS substates
+    self.state_manager:addState("CONTROLS", MainMenuControls(self--[[@as MainMenu]]))
+    self.state_manager:addState("DEFAULTNAME", MainMenuDefaultName(self--[[@as MainMenu]]))
+end
+
 function FileSelectMenu:onAddToStage()
-    -- self.state_manager:setState("FILESELECT")
     self.state_manager:setState("FILESELECT")
     if not Kristal.hasAnySaves(Mod.info.id) and self.file_select.previous_chapter then
         self:pushState("COMPLETION")
