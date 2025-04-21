@@ -73,10 +73,10 @@ function ModlandFileStartScreen:onPause()
     self.menu.heart.visible = true
 end
 
----@param button FileButton
+---@param data SaveData
 ---@param slot integer
-function ModlandFileStartScreen:onEnter(_, button, slot)
-    self.data = button.data
+function ModlandFileStartScreen:onEnter(_, data, slot)
+    self.data = data
     self.slot = slot
     self.selected_y = 1
     self:onResume()

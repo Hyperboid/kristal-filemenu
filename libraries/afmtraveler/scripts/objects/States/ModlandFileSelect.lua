@@ -5,7 +5,7 @@ function ModlandFileSelect:onSelectFile(button, slot)
     if button.data then
         self.menu:pushState("FILEPREVIEW", button, slot)
     else
-        self.menu:pushState("FILESTART", button, slot)
+        self.menu:pushState("FILESTART", button.data, slot)
     end
 end
 

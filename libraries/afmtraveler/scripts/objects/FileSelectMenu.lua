@@ -14,4 +14,12 @@ function FileSelectMenu:initStates()
     self.state_manager:addState("FILESTART", self.file_start)
 end
 
+function FileSelectMenu:onAddToStage()
+    if not (Kristal.getSaveFile(1) or Kristal.getSaveFile(2) or Kristal.getSaveFile(3)) then
+        self:setState("FILESTART", Kristal.getSaveFile(1), 1)
+    else
+        super.onAddToStage(self)
+    end
+end
+
 return FileSelectMenu

@@ -35,7 +35,7 @@ function ModlandUnderFileNamer:onEnter(old_state)
             -- Kristal.loadMod(mod.id, self.menu.file_select.selected_y, name)
             Game.playtime = 0
             self.file_namer:remove()
-            Game.save_id = self.menu.file_select.selected_y
+            Game.save_id = self.menu.file_select.selected_y or Game.save_id
             Game.save_name = name
             Game.world:loadMap(Kristal.getLibConfig("afilemenu", "map"))
             Kristal.callEvent("afmPostInit", true)
