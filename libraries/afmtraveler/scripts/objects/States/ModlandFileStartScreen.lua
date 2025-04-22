@@ -52,13 +52,13 @@ function ModlandFileStartScreen:draw()
     love.graphics.push()
     love.graphics.translate(170, 100)
     for index, value in ipairs({
-            "[Z or ENTER] - Confirm",
-            "[X or SHIFT] - Cancel",
-            "[C or CTRL] - Menu (In-game)",
-            "[F4] - Fullscreen",
-            "[Hold ESC] - Quit",
-            "When HP is 0, you lose."
-        }) do
+        "[Z or ENTER] - Confirm",
+        "[X or SHIFT] - Cancel",
+        "[C or CTRL] - Menu (In-game)",
+        "[F4] - Fullscreen",
+        "[Hold ESC] - Quit",
+        "When HP is 0, you lose."
+    }) do
         love.graphics.print(value, 0, 0)
         love.graphics.translate(0,36)
     end
