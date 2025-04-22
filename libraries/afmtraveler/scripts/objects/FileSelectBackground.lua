@@ -5,14 +5,14 @@ local FileSelectBackground, super = Class("FileSelectBackground")
 function FileSelectBackground:onStateChange(old,new, ...)
     if new == "FILESELECT" or new == "FILEPREVIEW" then
         self.visible = true
+        if new == "FILESELECT" then
+            self.data = nil
+        end
     elseif new == "FILESTART" then
         self.visible = false
     end
-    if old == "FILEPREVIEW" then
-        self.data = nil
-    end
     if new == "FILEPREVIEW" then
-        self.data = ...
+        self.data = ... or self.data
     end
 end
 
@@ -25,7 +25,7 @@ function FileSelectBackground:draw()
 end
 
 function FileSelectBackground:drawSavePreview()
-    love.graphics.print(Utils.dump(self.data))
+    -- TODO: undertale
     
 end
 
