@@ -1,4 +1,5 @@
 ---@class UnderFileNamer : Object
+---@field choicer UnderMenuChoice
 ---@overload fun(options?:table) : UnderFileNamer
 local UnderFileNamer, super = Class(Object)
 
@@ -99,7 +100,7 @@ function UnderFileNamer:setState(state)
     if state == "KEYBOARD" then
         self.text:setText(self.name_text)
         self.text.x = self.text.init_x
-        self.keyboard = GonerKeyboard(self.name_limit, self.keyboard_mode, function(text)
+        self.keyboard = UnderMenuKeyboard(self.name_limit, self.keyboard_mode, function(text)
             self.name = text
             self:setState("CONFIRM")
         end, function(key, x, y, namer)
@@ -140,21 +141,22 @@ function UnderFileNamer:setState(state)
             end
         end
         if allow then
-            self.choicer = GonerChoice(220, 360, {
-                {{"NO",0,0},{"<<"},{">>"},{"YES",160,0}}
+            self.choicer = UnderMenuChoice(220, 360, {
+                {{"No",0,0},{"Yes",160,0}}
             }, nil, function(choice, x, y)
-                if choice == "YES" then
+                if choice == "Yes" then
                     if self.do_fadeout then
                         self:setState("FADEOUT")
                     else
                         self:setState("DONE")
                     end
-                elseif choice == "NO" then
+                elseif choice == "No" then
                     self:setState("KEYBOARD")
                 end
             end)
+            -- self.choicer.teleport = truez
         else
-            self.choicer = GonerChoice(220, 360, {
+            self.choicer = UnderMenuChoice(220, 360, {
                 {{"NO",0,0}}
             }, nil, function(choice, x, y)
                 self:setState("KEYBOARD")
