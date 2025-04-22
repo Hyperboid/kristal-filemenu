@@ -61,6 +61,7 @@ function UnderMenuChoice:finish(callback)
     if self.on_complete then
         self.on_complete()
     end
+    self:remove()
 end
 
 return UnderMenuChoice
