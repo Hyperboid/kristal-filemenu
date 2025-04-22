@@ -11,6 +11,11 @@ function UnderMenuChoice:init(x,y,choices,on_complete,on_select)
     self.shake_rng = love.math.newRandomGenerator()
 end
 
+function UnderMenuChoice:moveSelection(...)
+    super.moveSelection(self,...)
+    Assets.stopAndPlaySound("ui_move")
+end
+
 function UnderMenuChoice:draw()
     Object.draw(self)
 
@@ -18,7 +23,9 @@ function UnderMenuChoice:draw()
     for y, row in ipairs(self.choices) do
         for x, choice in ipairs(row) do
             love.graphics.push()
-            if self.shaky then
+            local shaky = choice.shaky
+            if shaky == nil then shaky = self.shaky end
+            if shaky then
                 love.graphics.translate(self.shake_rng:random(-1,1),0)
                 love.graphics.translate(0,self.shake_rng:random(-1,1))
             end

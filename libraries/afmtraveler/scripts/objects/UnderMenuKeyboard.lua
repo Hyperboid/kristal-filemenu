@@ -59,9 +59,7 @@ function UnderMenuKeyboard:setMode(mode)
     Utils.merge(self.mode, mode)
 
     local choices = self:createKeyboardChoices(self.mode)
-    self.choicer:setChoices(choices)
-
-    self.choicer:resetSoulTarget()
+    self.choicer:setChoices(choices, 1, 1)
 end
 
 function UnderMenuKeyboard:createKeyboardChoices(mode)
@@ -70,7 +68,9 @@ function UnderMenuKeyboard:createKeyboardChoices(mode)
         local choice_row = {}
         table.insert(key_choices, choice_row)
         for x, key in ipairs(row) do
-            table.insert(choice_row, {key, mode.x + (x - 1) * mode.step_x, mode.y + (y - 1) * mode.step_y})
+            local choice = {key, mode.x + (x - 1) * mode.step_x, mode.y + (y - 1) * mode.step_y}
+            if (#key > 1) then choice.shaky = false end
+            table.insert(choice_row, choice)
         end
     end
     return key_choices
@@ -145,6 +145,11 @@ function UnderMenuKeyboard:draw()
     local w = self.font:getWidth(self.text)
 
     love.graphics.print(self.text, (SCREEN_WIDTH / 2) - (w / 2), self.mode.name_y)
+end
+
+function UnderMenuKeyboard:onAddToStage(stage)
+    super.onAddToStage(self,stage)
+    Input.clear("confirm")
 end
 
 return UnderMenuKeyboard

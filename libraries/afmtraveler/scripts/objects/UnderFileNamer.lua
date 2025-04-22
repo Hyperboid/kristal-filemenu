@@ -33,7 +33,7 @@ function UnderFileNamer:init(options)
     self.crash_names   = options.crash_names   or mod["namesCrash"]    or {"GASTER"}
     self.deny_names    = options.deny_names    or mod["namesDeny"]     or {}
     self.name_messages = options.name_messages or mod["namesMessages"] or {}
-    
+
     self.keyboard_mode = options.keyboard_mode or mod["keyboardMode"] or "default"
 
     self.callback = options.on_confirm
@@ -117,7 +117,7 @@ function UnderFileNamer:setState(state)
         end)
         if self.name == self.default_name and self.default_name ~= "" then
             self.keyboard.text = self.default_name
-            self.keyboard.choicer:setSelectedOption(9, 3)
+            self.keyboard.choicer:setSelectedOption(9, 6)
             self.keyboard.choicer:resetSoulPosition()
         end
         self:addChild(self.keyboard)
@@ -162,13 +162,7 @@ function UnderFileNamer:setState(state)
                 self:setState("KEYBOARD")
             end)
         end
-        if self.name == self.default_name and self.default_name ~= "" then
-            self.choicer:setSelectedOption(4, 1)
-            self.choicer:resetSoulPosition()
-        elseif allow then
-            self.choicer:setSelectedOption(2, 1)
-            self.choicer:setSoulPosition(80, 0)
-        end
+        self.choicer:setSelectedOption(1, 1)
         self:addChild(self.choicer)
     elseif state == "FADEOUT" then
         Music.stop()
