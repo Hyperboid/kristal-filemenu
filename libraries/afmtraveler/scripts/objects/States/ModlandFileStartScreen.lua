@@ -23,7 +23,7 @@ function ModlandFileStartScreen:onKeyPressed(key)
         if Input.isConfirm(key) then
             Assets.playSound("ui_select")
         else
-            Assets.playSound("ui_cancel_small")
+            Assets.playSound("ui_cancel")
         end
         self.menu:popState()
     elseif Input.isConfirm(key) and self.selected_y == 1 then
