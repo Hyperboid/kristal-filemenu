@@ -112,10 +112,7 @@ function ModlandFileStartScreen:enterGame()
 end
 
 function ModlandFileStartScreen:getMusic()
-    if self.data and self.data.flags and (self.data.flags.menu_music ~= nil) then
-        return self.data.flags.menu_music
-    end
-    return "ut_menu0"
+    return nil
 end
 
 function ModlandFileStartScreen:onLeave()
