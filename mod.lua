@@ -3,6 +3,7 @@ function Mod:init()
 end
 
 function Mod:afmGetStyle()
+    do return "greatdoor" end
     -- Could check for a Completion Save here
     if Kristal.loadData("file_3") then
         return "normal"

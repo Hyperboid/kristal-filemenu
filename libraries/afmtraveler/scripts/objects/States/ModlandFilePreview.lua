@@ -52,10 +52,10 @@ function ModlandFilePreview:onPause()
     self.menu.heart.visible = true
 end
 
----@param button FileButton
+---@param data SaveData
 ---@param slot integer
-function ModlandFilePreview:onEnter(_, button, slot)
-    self.data = button.data
+function ModlandFilePreview:onEnter(_, data, slot)
+    self.data = data
     self.slot = slot
     self:onResume()
     local music = self:getMusic()
