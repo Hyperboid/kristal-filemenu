@@ -11,7 +11,7 @@ function FileSelectMenu:init()
     self:initStates()
 
     self.font = Assets.getFont("main")
-    
+
     self.heart = Sprite("player/heart_menu")
     self.heart.visible = true
     self.heart:setOrigin(0.5, 0.5)
@@ -34,6 +34,12 @@ function FileSelectMenu:initStateclasses()
     self.completion_select = ModlandCompletionSelect(self)
     self.file_namer = ModlandFileNamer(self)
     self.options = ModlandOptions(self)
+end
+
+function FileSelectMenu:onStateChange(old, new, ...)
+    if self.background and self.background.onStateChange then
+        return self.background:onStateChange(old, new, ...)
+    end
 end
 
 function FileSelectMenu:initStates()
