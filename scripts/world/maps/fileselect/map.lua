@@ -14,10 +14,10 @@ function map:init(world,data)
 end
 
 function map:onEnter()
-    self.world:openMenu(self.menu)
     if FileSelectBackground then
         self.menu.background = self.world:spawnObject(FileSelectBackground(self.menu), WORLD_LAYERS["below_ui"])
     end
+    self.world:openMenu(self.menu)
 end
 
 return map
