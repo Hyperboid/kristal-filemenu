@@ -29,6 +29,13 @@ function ModlandFilePreview:onKeyPressed(key)
             self:enterGame()
         elseif self.selected_x == 2 and self.selected_y == 1 then
             self.menu:pushState("FILENAME")
+        elseif self.selected_y == 2 then
+            -- TODO: Recreate Undertale's settings menu as settings_screen
+            if Registry.getMap("settings_screen") or Registry.getMapData("settings_screen") then
+                Game.world:mapTransition("settings_screen", {return_to = Game.world.map.id})
+            else
+                self.menu:pushState("OPTIONS")
+            end
         end
     elseif Input.is(key,"left") then
         self.selected_x = Utils.clampWrap(self.selected_x - 1, 1, 2)
