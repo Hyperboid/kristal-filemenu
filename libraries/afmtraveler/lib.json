@@ -6,5 +6,9 @@
     ],
     "dependencies": [
         "afilemenu"
-    ]
+    ],
+    "config": {
+        // Only use one save file.
+        "one_file": false
+    }
 }

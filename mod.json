@@ -79,6 +79,9 @@
             "noStyledOptions": false,
             "style": "greatdoor",
             "hookOverlay": true,
+        },
+        "afmtraveler": {
+            "one_file": true
         }
     }
 }
