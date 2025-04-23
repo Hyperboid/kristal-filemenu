@@ -7,8 +7,19 @@ function Mod:init()
     end)
 end
 
+function Mod:afmGetMusic()
+    if not Mod.libs.afmtraveler then return end
+    local data = Kristal.getSaveFile(1)
+    if not data then
+        return "ut_menu0"
+    else
+        -- For the true Knockoff Deltatraveler experience, put My Castle Town here.
+        return "ut_menu0"
+    end
+end
+
 function Mod:afmGetStyle()
-    do return "greatdoor" end
+    if Mod.libs.afmtraveler then return "normal" end
     -- Could check for a Completion Save here
     if Kristal.loadData("file_3") then
         return "normal"
