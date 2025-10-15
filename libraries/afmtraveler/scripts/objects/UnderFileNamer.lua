@@ -31,8 +31,8 @@ function UnderFileNamer:init(options)
     end
 
     self.crash_names   = options.crash_names   or mod["namesCrash"]    or {"GASTER"}
-    self.deny_names    = options.deny_names    or mod["namesDeny"]     or {}
-    self.name_messages = options.name_messages or mod["namesMessages"] or {}
+    self.deny_names    = options.deny_names    or mod["namesDeny"]     or {"SANS"}
+    self.name_messages = options.name_messages or mod["namesMessages"] or {{"SANS", "[font:sans]nope"}, {"PAPYRU", "[font:papyrus]I'LL ALLOW IT!!!"}, {"MURDER", "That's a little on the nose, isn't it?"}, {"MERCY", "That's a little on the nose, isn't it?"}}
 
     self.keyboard_mode = options.keyboard_mode or mod["keyboardMode"] or "default"
 
@@ -124,8 +124,8 @@ function UnderFileNamer:setState(state)
     elseif state == "CONFIRM" then
         local confirm_text = self.confirm_text
         for k,v in pairs(self.name_messages) do
-            if k == self.name then
-                confirm_text = v
+            if v[1] == string.upper(self.name) then
+                confirm_text = v[2]
             end
         end
         self.text:setText(confirm_text)
