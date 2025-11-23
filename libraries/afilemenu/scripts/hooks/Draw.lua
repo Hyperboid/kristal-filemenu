@@ -1,10 +1,7 @@
----@type metatable
-local _mt = {__index = Draw}
-
 ---@class Draw
-local Draw = setmetatable({}, _mt)
+local Draw = HookSystem.hookScript(Draw)
 
-function Draw.coolRectangle(x, y, w, h)
+function Draw.drawMenuRectangle(x, y, w, h)
     -- Make sure the line is a single pixel wide
     love.graphics.setLineWidth(1)
     love.graphics.setLineStyle("rough")
@@ -21,5 +18,4 @@ function Draw.coolRectangle(x, y, w, h)
     love.graphics.rectangle("line", x - 3, y - 3, w + 6, h + 6)
 end
 
-_mt.__newindex = _mt.__index
 return Draw
