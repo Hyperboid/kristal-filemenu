@@ -531,7 +531,7 @@ function ModlandFileSelect:setResultText(text)
 end
 
 function ModlandFileSelect:swapIntoMod(mod)
-    Gamestate.switch({})
+    Kristal.setState("Empty")
     -- Clear the mod
     Kristal.clearModState()
 
