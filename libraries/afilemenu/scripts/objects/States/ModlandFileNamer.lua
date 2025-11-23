@@ -33,11 +33,10 @@ function ModlandFileNamer:onEnter(old_state)
 
         on_confirm = function(name)
             -- Kristal.loadMod(mod.id, self.menu.file_select.selected_y, name)
-            Game.playtime = 0
-            self.file_namer:remove()
-            Game.save_id = self.menu.file_select.selected_y
-            Game.save_name = name
-            Game.world:loadMap(Kristal.getLibConfig("afilemenu", "map"))
+            local orig_map = Mod.info.map
+            Mod.info.map = Kristal.getLibConfig("afilemenu", "map")
+            Game:load(nil, self.menu.file_select.selected_y, true)
+            Mod.info.map = orig_map
             Kristal.callEvent("afmPostInit", true)
 
             if mod.transition then
