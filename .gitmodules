@@ -1,0 +1,3 @@
+[submodule "libraries/afilemenu"]
+	path = libraries/afilemenu
+	url = git@github.com:hyperboid/kristal-filemenu
