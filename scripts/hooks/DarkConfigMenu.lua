@@ -4,19 +4,21 @@ end
 
 local DarkConfigMenu, super = Class(DarkConfigMenu)
 
-function DarkConfigMenu:update()
-    if self.state == "MAIN" then
-        if Input.pressed("confirm") then
-            if self.currently_selected == 6 then
-                Game.fader:fadeOut(function ()
-                    Game:load(nil, nil, true)
-                end, {})
-                self.fadeout = true
-                return
-            end
+function DarkConfigMenu:addExitOptions()
+    self:addOption(DarkConfigOption(self, "Return to Title", function()
+        Game.fader:fadeOut(function ()
+            Game:load(nil, nil, true)
+        end, {})
+        self.fadeout = true
+        return
+    end))
+
+    self:addOption(DarkConfigOption(self, "Back", function()
+        if Game.chapter ~= 1 then -- TODO
+            Assets.stopAndPlaySound("ui_cancel_small")
         end
-    end
-    super.update(self)
+        Game.world.menu:closeBox()
+    end))
 end
 
 function DarkConfigMenu:draw()
